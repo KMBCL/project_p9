@@ -1,0 +1,13 @@
+[flake8]
+max-line-length = 120
+exclude =
+    .git,
+    __pycache__,
+    */migrations/*,
+    flake8-report
+# pep257: one-line summary docstrings, no Args/Returns sections required (types come from hints)
+docstring-convention = pep257
+# D106: Django's nested `class Meta` doesn't need a docstring
+extend-ignore = D106
+format = html
+htmldir = flake8-report
