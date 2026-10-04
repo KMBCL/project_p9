@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth import authenticate
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+from core.forms.authentication import AuthenticationForm
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -13,17 +15,24 @@ LOGIN_TEMPLATE_PATH = "core/login.html"
 LOGOUT_TEMPLATE_PATH = "core/logout.html"
 
 
-def home(request: Any) -> HttpResponse:
+def home_view(request: Any) -> HttpResponse:
 
     return render(request=request, template_name=HOME_TEMPLATE_PATH, context={})
 
 
-def login(request: Any) -> HttpResponse:
-    user = authenticate(username="john", credentials="test")
+def login_view(request: Any) -> HttpResponse:
+    if request.method == "GET":
+        form = AuthenticationForm()
+        return render(request=request, template_name=LOGIN_TEMPLATE_PATH, context={"form": form})
+    else:
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+        return redirect("login")
 
-    return render(request=request, template_name=LOGIN_TEMPLATE_PATH, context={})
 
-
-def logout(request: Any) -> HttpResponse:
-
+def logout_view(request: Any) -> HttpResponse:
     return render(request=request, template_name=HOME_TEMPLATE_PATH, context={})

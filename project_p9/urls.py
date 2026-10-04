@@ -19,11 +19,11 @@ from django.contrib import admin
 from django.urls import path, URLPattern, URLResolver
 
 
-from core.views.authentication import home, login, logout
+from core.views.authentication import home_view, login_view, logout_view
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("admin/", admin.site.urls),
-    path("home/", home, name="home"),
-    path("login/", login, name="login"),
-    path("logout/", logout, name="logout"),
+    path("home/", home_view, name="home"),
+    path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
 ]
