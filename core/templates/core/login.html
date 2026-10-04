@@ -1,11 +1,19 @@
-login
+{% extends "core/core.html" %}
 
-<form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-        {{ field.label_tag }}
-        {{ field }}
-        {{ field.errors }}
-    {% endfor %}
-    <button type="submit">Se connecter</button>
-</form>
+{% block content %}
+    <div id="register_panel">
+        <a href="{% url 'register' %}">S'inscrire</a>
+    </div>
+
+    <div id="connexion_panel">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
+            <button type="submit">Se connecter</button>
+        </form>
+    </div>
+{% endblock %}

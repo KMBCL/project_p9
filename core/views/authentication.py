@@ -13,10 +13,10 @@ if TYPE_CHECKING:
 HOME_TEMPLATE_PATH = "core/home.html"
 LOGIN_TEMPLATE_PATH = "core/login.html"
 LOGOUT_TEMPLATE_PATH = "core/logout.html"
+REGISTER_TEMPLATE_PATH = "core/register.html"
 
 
 def home_view(request: Any) -> HttpResponse:
-
     return render(request=request, template_name=HOME_TEMPLATE_PATH, context={})
 
 
@@ -36,3 +36,11 @@ def login_view(request: Any) -> HttpResponse:
 
 def logout_view(request: Any) -> HttpResponse:
     return render(request=request, template_name=HOME_TEMPLATE_PATH, context={})
+
+
+def register_view(request: Any) -> HttpResponse:
+    return render(
+        request=request,
+        template_name=REGISTER_TEMPLATE_PATH,
+        context={},
+    )
