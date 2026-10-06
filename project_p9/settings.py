@@ -128,3 +128,11 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "core.User"
+
+# Django Debug Toolbar (dev only)
+# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    INTERNAL_IPS = ["127.0.0.1"]
