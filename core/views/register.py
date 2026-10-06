@@ -7,6 +7,9 @@ from core.forms.register import RegisterForm
 from core.constants import TEMPLATE_PATHS
 
 
+from core.data_managers.user import RegistringUser, UserService
+
+
 class RegisterView(View):
 
     def get(self, request: HttpRequest):
@@ -21,7 +24,12 @@ class RegisterView(View):
     def post(self, request: HttpRequest):
         form = RegisterForm(request.POST)
         if form.is_valid():
-            print("Fucking registered user!")
+            registring_user = RegistringUser(
+                form.cleaned_data["username"],
+                form.cleaned_data["password"],
+            )
+            user_service = UserService()
+            user_service.register_user(registring_user)
             return redirect("login")
 
         return render(
