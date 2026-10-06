@@ -5,21 +5,18 @@ from typing import TYPE_CHECKING, Any
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
-from core.forms.authentication import AuthenticationForm, RegisterForm
+
+from core.forms.authentication import AuthenticationForm
+from core.constants import TEMPLATE_PATHS
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
-
-HOME_TEMPLATE_PATH = "core/home.html"
-LOGIN_TEMPLATE_PATH = "core/login.html"
-LOGOUT_TEMPLATE_PATH = "core/logout.html"
-REGISTER_TEMPLATE_PATH = "core/register.html"
 
 
 def home_view(request: Any) -> HttpResponse:
     return render(
         request=request,
-        template_name=HOME_TEMPLATE_PATH,
+        template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
         context={},
     )
 
@@ -29,7 +26,7 @@ def login_view(request: Any) -> HttpResponse:
         form = AuthenticationForm()
         return render(
             request=request,
-            template_name=LOGIN_TEMPLATE_PATH,
+            template_name=TEMPLATE_PATHS.LOGIN_TEMPLATE_PATH,
             context={"form": form},
         )
     else:
@@ -43,25 +40,8 @@ def login_view(request: Any) -> HttpResponse:
 
 
 def logout_view(request: Any) -> HttpResponse:
-    return render(request=request, template_name=HOME_TEMPLATE_PATH, context={})
-
-
-def register_view(request: Any) -> HttpResponse:
-    if request.method == "GET":
-        form = RegisterForm()
-        return render(
-            request=request,
-            template_name=REGISTER_TEMPLATE_PATH,
-            context={"form": form},
-        )
-    else:
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            print("Fucking registered user!")
-            return redirect("login")
-
-        return render(
-            request=request,
-            template_name=REGISTER_TEMPLATE_PATH,
-            context={"form": form},
-        )
+    return render(
+        request=request,
+        template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
+        context={},
+    )
