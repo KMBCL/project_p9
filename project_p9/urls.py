@@ -19,17 +19,13 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, URLPattern, URLResolver
 
-
-from core.views.authentication import home_view, login_view, logout_view
-from core.views.register import RegisterView
+from core.urls.urls import core_urlpatterns
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("admin/", admin.site.urls),
-    path("home/", home_view, name="home"),
-    path("login/", login_view, name="login"),
-    path("logout/", logout_view, name="logout"),
-    path("register/", RegisterView.as_view(), name="register"),
 ]
+
+urlpatterns.extend(core_urlpatterns)
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls

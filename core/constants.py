@@ -6,3 +6,11 @@ class TEMPLATE_PATHS(StrEnum):
     LOGIN_TEMPLATE_PATH = "core/authentication/login.html"
     LOGOUT_TEMPLATE_PATH = "core/authentication/logout.html"
     REGISTER_TEMPLATE_PATH = "core/register/register.html"
+
+
+class VIEW_TYPES(StrEnum):
+    CREATE = "create"
+    COLLECTION = "collection"
+    DETAIL = "detail"
+    UPDATE = "update"
+    DELETE = "delete"
