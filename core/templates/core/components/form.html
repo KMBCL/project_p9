@@ -1,0 +1,13 @@
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <button type="submit">Valider</button>
+</form>
