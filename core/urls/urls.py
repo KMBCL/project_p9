@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from core.urls.url_creator import URLCreator
 from core.urls.url_shortcut_creator import URLShortcutCreator
 
-from core.views.authentication import home_view, login_view, logout_view
+from core.views.authentication import home_view, logout_view
 from core.views.register import RegisterView
+from core.views.feed import FeedView
 
 
 import core.views.ticket as TicketViews
@@ -14,9 +15,10 @@ import core.views.userfollows as UserFollowsViews
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("home/", home_view, name="home"),
-    path("login/", login_view, name="login"),
+    # path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
+    path("feed/", login_required(FeedView.as_view()), name="feed"),
 ]
 
 ticket_urlpatterns: list[URLPattern | URLResolver] = [

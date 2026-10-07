@@ -1,15 +1,35 @@
 {% extends "core/core.html" %}
 
 {% block content %}
-    following bitch!
+    <h2>Suivre d'autres utilisateurs</h2>
     
-    <div id="to_follow_panel">
-        {% include "core/components/form.html"%}
-    </div>
+    <section id="to_follow_panel">
+        <form method="post" class="login-panel">
+            <div class="login-panel__form">
+                {% include "core/components/form_content.html" %}
+            </div>
+            <div class="login-panel__button">
+                <button class="validate-button" type="submit">
+                    Envoyer
+                </button>            
+            </div>
+        </form>
+    </section>
 
-    <ul id="following_panel">
-        {% for followed_user in user_follows%}
-            <li> {{ followed_user.followed_user.username }} <a href="{% url 'userfollows_delete' followed_user.pk %}">Arrêter de suivre</a> </li>
-        {% endfor %}
-    </ul>
+    <h2>Abonnements</h2>
+
+    <section id="following_panel">
+        <ul>
+            {% for followed_user in user_follows%}
+                <li> {{ followed_user.followed_user.username }} <a href="{% url 'userfollows_delete' followed_user.pk %}">Arrêter de suivre</a> </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <h2>Abonnés</h2>
+    <section id="following_panel">
+        <ul>
+            
+        </ul>
+    </section>
 {% endblock %}

@@ -1,9 +1,26 @@
 {% extends "core/core.html" %}
 
 {% block content %}
-    
-    
-    <main>
+    <div class="home-frame">
+        <section class="home-section">  
+            <h2>Inscrivez-vous maintenant</h2>  
+            <button class="validate-button">
+                <a href="{% url 'register' %}">S'inscrire</a>
+            </button>
+        </section>
 
-    </main>
+        <section class="home-section"> 
+            <h2>Connectez-vous</h2>            
+            <form method="post" class="login-panel">
+                <div class="login-panel__form">
+                    {% include "core/components/form_content.html" %}
+                </div>
+                <div class="login-panel__button">
+                    <button class="validate-button" type="submit">
+                        Se connecter
+                    </button>
+                </div>
+            </form>           
+        </section>
+    </div>
 {% endblock %}
