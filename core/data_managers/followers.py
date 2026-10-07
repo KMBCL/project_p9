@@ -10,7 +10,7 @@ from core.models.userfollows import UserFollows
 @dataclass
 class UserFollowsCreateConfig:
     request_user: User
-    following_username: str
+    followed_username: str
 
 
 @dataclass
@@ -18,29 +18,52 @@ class UserFollowsCollectionConfig:
     request_user: User
 
 
+@dataclass
+class UserFollowsDetailConfig:
+    pk: str
+
+
+@dataclass
+class UserFollowsDeleteConfig:
+    pk: str
+
+
 class UserFollowsService:
 
     def __init__(self) -> None:
         pass
 
-    def create_user_follows(self, config: UserFollowsCreateConfig):
-        following_user = User.objects.filter(
-            username=config.following_username,
+    def get_followed_user(self, followed_username: str) -> User | None:
+        followed_user = User.objects.filter(
+            username=followed_username,
         ).first()
+        return followed_user
 
-        if following_user is None:
+    def create_user_follows(self, config: UserFollowsCreateConfig):
+        followed_user = self.get_followed_user(config.followed_username)
+
+        if followed_user is None:
             return None
-
-        print("user", config.request_user.username)
-        print("following user", following_user.username)
 
         user_follows = UserFollows.objects.create(
             user=config.request_user,
-            followed_user=following_user,
+            followed_user=followed_user,
         )
 
         return user_follows
 
-    def get_user_follows(self, config: UserFollowsCollectionConfig):
-        user_follows = UserFollows.objects.filter(user=config.request_user)
+    def get_followed_users(self, config: UserFollowsCollectionConfig):
+        followed_users = UserFollows.objects.filter(user=config.request_user)
+        return followed_users
+
+    def get_user_follows(self, config: UserFollowsDetailConfig):
+        user_follows = UserFollows.objects.filter(pk=int(config.pk)).first()
         return user_follows
+
+    def delete_user_follows(self, config: UserFollowsDeleteConfig) -> None:
+        user_follows = UserFollows.objects.filter(pk=config.pk).first()
+
+        if user_follows is None:
+            return None
+
+        user_follows.delete()

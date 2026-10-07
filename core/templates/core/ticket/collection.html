@@ -4,8 +4,7 @@
 
     <ul>
         {% for ticket in tickets %}
-            <li>
-                <a href="{% url 'ticket_detail' ticket.pk %}">Details</a>
+            <li>               
                 {{ ticket.time_created }} - 
                 {{ ticket.title }} : {{ ticket.description }}
                 {{ ticket.image }}

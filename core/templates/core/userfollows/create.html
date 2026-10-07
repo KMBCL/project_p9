@@ -9,7 +9,7 @@
 
     <ul id="following_panel">
         {% for followed_user in user_follows%}
-            <li> {{ followed_user.followed_user.username }} </li>
+            <li> {{ followed_user.followed_user.username }} <a href="{% url 'userfollows_delete' followed_user.pk %}">Arrêter de suivre</a> </li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -6,17 +6,17 @@ from core.urls.url_shortcut_creator import URLShortcutCreator
 
 from core.views.authentication import home_view, login_view, logout_view
 from core.views.register import RegisterView
-from core.views.following import FollowingView
+
 
 import core.views.ticket as TicketViews
 import core.views.review as ReviewViews
+import core.views.userfollows as UserFollowsViews
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("home/", home_view, name="home"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
-    path("following/", login_required(FollowingView.as_view()), name="following"),
 ]
 
 ticket_urlpatterns: list[URLPattern | URLResolver] = [
@@ -70,7 +70,21 @@ review_urlpatterns: list[URLPattern | URLResolver] = [
     ),
 ]
 
+user_follows_urlpattenrs: list[URLPattern | URLResolver] = [
+    path(
+        URLCreator.create("userfollows"),
+        login_required(UserFollowsViews.UserFollowsCreateView.as_view()),
+        name=URLShortcutCreator.create("userfollows"),
+    ),
+    path(
+        URLCreator.delete("userfollows"),
+        login_required(UserFollowsViews.UserFollowsDeleteView.as_view()),
+        name=URLShortcutCreator.delete("userfollows"),
+    ),
+]
+
 core_urlpatterns: list[URLPattern | URLResolver] = []
 core_urlpatterns.extend(urlpatterns)
 core_urlpatterns.extend(ticket_urlpatterns)
 core_urlpatterns.extend(review_urlpatterns)
+core_urlpatterns.extend(user_follows_urlpattenrs)
