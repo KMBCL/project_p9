@@ -1,1 +1,17 @@
-home
+{% extends "core/core.html" %}
+
+{% block content %}
+    
+    <nav>
+        <div id="register_panel">
+            <a href="{% url 'register' %}">S'inscrire</a>
+        </div>
+
+        <div id="ticket_panel">
+            <a href="{% url 'ticket_create' %}">Créer ticket</a>
+        </div>
+    </nav>
+    <main>
+
+    </main>
+{% endblock %}

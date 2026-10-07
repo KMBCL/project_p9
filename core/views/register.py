@@ -1,4 +1,7 @@
-from django.http import HttpRequest
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 
 from django.views import View
 from django.shortcuts import render, redirect
@@ -8,6 +11,9 @@ from core.constants import TEMPLATE_PATHS
 
 
 from core.data_managers.user import RegistringUser, UserService
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 class RegisterView(View):

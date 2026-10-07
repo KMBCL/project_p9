@@ -5,7 +5,7 @@
         <a href="{% url 'register' %}">S'inscrire</a>
     </div>
 
-    <div id="connexion_panel">
+    <div id="login_panel">
         <form method="post">
             {% csrf_token %}
             {% for field in form %}

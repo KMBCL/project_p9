@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+import django_stubs_ext
+
+# Make Django generics (ModelForm[T], QuerySet[T]...) subscriptable at runtime
+django_stubs_ext.monkeypatch()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -128,6 +133,7 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "core.User"
+LOGIN_URL = "login/"
 
 # Django Debug Toolbar (dev only)
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html

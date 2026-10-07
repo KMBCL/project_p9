@@ -1,4 +1,5 @@
 from django.urls import path, URLPattern, URLResolver
+from django.contrib.auth.decorators import login_required
 
 from core.urls.url_creator import URLCreator
 from core.urls.url_shortcut_creator import URLShortcutCreator
@@ -17,22 +18,22 @@ urlpatterns: list[URLPattern | URLResolver] = [
 ticket_urlpatterns: list[URLPattern | URLResolver] = [
     path(
         URLCreator.create("ticket"),
-        TicketViews.TicketCreateView.as_view(),
+        login_required(TicketViews.TicketCreateView.as_view()),
         name=URLShortcutCreator.create("ticket"),
     ),
     path(
         URLCreator.collection("ticket"),
-        TicketViews.TicketCollectionView.as_view(),
+        login_required(TicketViews.TicketCollectionView.as_view()),
         name=URLShortcutCreator.collection("ticket"),
     ),
     path(
         URLCreator.detail("ticket"),
-        TicketViews.TicketDetailView.as_view(),
+        login_required(TicketViews.TicketDetailView.as_view()),
         name=URLShortcutCreator.detail("ticket"),
     ),
     path(
         URLCreator.update("ticket"),
-        TicketViews.TicketUpdateView.as_view(),
+        login_required(TicketViews.TicketUpdateView.as_view()),
         name=URLShortcutCreator.update("ticket"),
     ),
     path(
