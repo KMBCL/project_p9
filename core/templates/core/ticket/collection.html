@@ -11,6 +11,7 @@
                 {{ ticket.image }}
                 <a href="{% url 'ticket_update' ticket.pk %}">Modifier</a>
                 <a href="{% url 'ticket_delete' ticket.pk %}">Supprimer</a>
+                <a href="{% url 'review_create_from' ticket.pk %}">Créer critique</a>
             </li>
         {% endfor %}
     </ul>

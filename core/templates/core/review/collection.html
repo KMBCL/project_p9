@@ -7,7 +7,7 @@
             <li>
                 {% comment %} <a href="{% url 'ticket_detail' ticket.pk %}">Details</a> {% endcomment %}
                 {{ review.time_created }} - 
-                {{ review.title }} : {{ review.body }}              
+                {{ review.headline }} : {{ review.body }}              
                 {% comment %} <a href="{% url 'ticket_update' ticket.pk %}">Modifier</a>
                 <a href="{% url 'ticket_delete' ticket.pk %}">Supprimer</a> {% endcomment %}
             </li>

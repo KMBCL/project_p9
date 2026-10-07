@@ -52,22 +52,22 @@ review_urlpatterns: list[URLPattern | URLResolver] = [
     ),
     path(
         URLCreator.collection("review"),
-        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        login_required(ReviewViews.ReviewCollectionView.as_view()),
         name=URLShortcutCreator.collection("review"),
     ),
     path(
         URLCreator.detail("review"),
-        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        login_required(ReviewViews.ReviewDetailView.as_view()),
         name=URLShortcutCreator.detail("review"),
     ),
     path(
         URLCreator.update("review"),
-        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        login_required(ReviewViews.ReviewUpdateView.as_view()),
         name=URLShortcutCreator.update("review"),
     ),
     path(
         URLCreator.delete("review"),
-        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        login_required(ReviewViews.ReviewDeleteView.as_view()),
         name=URLShortcutCreator.delete("review"),
     ),
 ]
