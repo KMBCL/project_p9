@@ -28,11 +28,6 @@ ticket_urlpatterns: list[URLPattern | URLResolver] = [
         name=URLShortcutCreator.collection("ticket"),
     ),
     path(
-        URLCreator.detail("ticket"),
-        login_required(TicketViews.TicketDetailView.as_view()),
-        name=URLShortcutCreator.detail("ticket"),
-    ),
-    path(
         URLCreator.update("ticket"),
         login_required(TicketViews.TicketUpdateView.as_view()),
         name=URLShortcutCreator.update("ticket"),

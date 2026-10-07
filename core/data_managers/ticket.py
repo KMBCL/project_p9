@@ -61,14 +61,6 @@ class TickeService:
         ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
         return ticket
 
-    def select_data_diff(self, attr_name: str, instance: Ticket, updated_data: dict[str, Any]):
-        actual_value = getattr(instance, attr_name)
-        updated_value = updated_data[attr_name]
-        if updated_value is None:
-            return actual_value
-
-        return actual_value if actual_value == updated_value else updated_value
-
     def update_ticket(self, config: TicketUpdateConfig) -> Ticket | None:
         ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
         if ticket is None:
