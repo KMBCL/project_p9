@@ -33,6 +33,12 @@ class TicketUpdateConfig:
     cleaned_data: dict[str, Any]
 
 
+@dataclass
+class TicketDeleteConfig:
+    request_user: User
+    request_parameter: str
+
+
 class TickeService:
 
     def __init__(self) -> None:
@@ -71,3 +77,10 @@ class TickeService:
         for name, value in config.cleaned_data.items():
             setattr(ticket, name, value)
         ticket.save()
+
+    def delete_ticket(self, config: TicketDeleteConfig) -> None:
+        ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
+        if ticket is None:
+            return None
+
+        ticket.delete()

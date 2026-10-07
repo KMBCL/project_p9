@@ -1,0 +1,10 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+    Supprimer ticket : {{ ticket.title }}
+    
+
+    <div id="ticket_panel">
+        {% include "core/components/form.html"%}
+    </div>
+{% endblock %}
