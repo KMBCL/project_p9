@@ -4,10 +4,15 @@ from core.models.user import User
 
 
 @dataclass
-class TicketInput:
+class TicketCreateConfig:
     title: str
     description: str
     image: bytes
+    request_user: User
+
+
+@dataclass
+class TicketCollectionConfig:
     request_user: User
 
 
@@ -16,11 +21,15 @@ class TickeService:
     def __init__(self) -> None:
         pass
 
-    def create_ticket(self, ticket_input: TicketInput):
+    def create_ticket(self, config: TicketCreateConfig):
         ticket = Ticket.objects.create(
-            title=ticket_input.title,
-            description=ticket_input.description,
-            user=ticket_input.request_user,
-            image=ticket_input.image,
+            title=config.title,
+            description=config.description,
+            user=config.request_user,
+            image=config.image,
         )
         return ticket
+
+    def get_tickets(self, config: TicketCollectionConfig):
+        tickets = Ticket.objects.filter(user=config.request_user)
+        return tickets

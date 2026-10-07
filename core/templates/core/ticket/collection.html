@@ -1,0 +1,15 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+
+    <ul>
+        {% for ticket in tickets %}
+            <li>
+                {{ ticket.time_created }} - 
+                {{ ticket.title }} : {{ ticket.description }}
+                {{ ticket.image }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

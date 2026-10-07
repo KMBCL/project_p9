@@ -7,6 +7,17 @@
 
 
 <body>
+    <nav>
+        <div id="register_panel">
+            <a href="{% url 'register' %}">S'inscrire</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+
+        <div id="ticket_panel">
+            <a href="{% url 'ticket_create' %}">Créer ticket</a>
+            <a href="{% url 'ticket_collection' %}">Tickets</a>
+        </div>
+    </nav>
 
     <div id="content">
         {% block content %}{% endblock %} 
