@@ -8,17 +8,21 @@ class URLCreator:
         return f"{model_name}/{VIEW_TYPES.CREATE}/"
 
     @staticmethod
+    def create_from(model_name: str) -> str:
+        return f"{model_name}/{VIEW_TYPES.CREATE_FROM}/<str:request_parameters>/"
+
+    @staticmethod
     def collection(model_name: str) -> str:
         return f"{model_name}/{VIEW_TYPES.COLLECTION}/"
 
     @staticmethod
     def detail(model_name: str) -> str:
-        return f"{model_name}/{VIEW_TYPES.DETAIL}/<str:request_parameters>"
+        return f"{model_name}/{VIEW_TYPES.DETAIL}/<str:request_parameters>/"
 
     @staticmethod
     def update(model_name: str) -> str:
-        return f"{model_name}/{VIEW_TYPES.UPDATE}/<str:request_parameters>"
+        return f"{model_name}/{VIEW_TYPES.UPDATE}/<str:request_parameters>/"
 
     @staticmethod
     def delete(model_name: str) -> str:
-        return f"{model_name}/{VIEW_TYPES.DELETE}/<str:request_parameters>"
+        return f"{model_name}/{VIEW_TYPES.DELETE}/<str:request_parameters>/"

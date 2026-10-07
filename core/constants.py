@@ -10,6 +10,7 @@ class TEMPLATE_PATHS(StrEnum):
 
 class VIEW_TYPES(StrEnum):
     CREATE = "create"
+    CREATE_FROM = "create_from"
     COLLECTION = "collection"
     DETAIL = "detail"
     UPDATE = "update"

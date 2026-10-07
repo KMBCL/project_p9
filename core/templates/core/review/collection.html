@@ -1,0 +1,17 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+
+    <ul>
+        {% for review in reviews %}
+            <li>
+                {% comment %} <a href="{% url 'ticket_detail' ticket.pk %}">Details</a> {% endcomment %}
+                {{ review.time_created }} - 
+                {{ review.title }} : {{ review.body }}              
+                {% comment %} <a href="{% url 'ticket_update' ticket.pk %}">Modifier</a>
+                <a href="{% url 'ticket_delete' ticket.pk %}">Supprimer</a> {% endcomment %}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
