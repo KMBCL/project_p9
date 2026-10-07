@@ -1,0 +1,15 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+    following bitch!
+    
+    <div id="to_follow_panel">
+        {% include "core/components/form.html"%}
+    </div>
+
+    <ul id="following_panel">
+        {% for followed_user in user_follows%}
+            <li> {{ followed_user.followed_user.username }} </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
