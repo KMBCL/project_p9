@@ -39,19 +39,40 @@ ticket_urlpatterns: list[URLPattern | URLResolver] = [
     ),
     path(
         URLCreator.delete("ticket"),
-        TicketViews.TicketDeleteView.as_view(),
+        login_required(TicketViews.TicketDeleteView.as_view()),
         name=URLShortcutCreator.delete("ticket"),
     ),
 ]
 
-review_urlpatterns:list[URLPattern|URLResolver]=[
+review_urlpatterns: list[URLPattern | URLResolver] = [
     path(
         URLCreator.create_from("review"),
         login_required(ReviewViews.ReviewCreateFromView.as_view()),
-        name=URLShortcutCreator.
-    )
+        name=URLShortcutCreator.create_from("review"),
+    ),
+    path(
+        URLCreator.collection("review"),
+        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        name=URLShortcutCreator.collection("review"),
+    ),
+    path(
+        URLCreator.detail("review"),
+        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        name=URLShortcutCreator.detail("review"),
+    ),
+    path(
+        URLCreator.update("review"),
+        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        name=URLShortcutCreator.update("review"),
+    ),
+    path(
+        URLCreator.delete("review"),
+        login_required(ReviewViews.ReviewCreateFromView.as_view()),
+        name=URLShortcutCreator.delete("review"),
+    ),
 ]
 
 core_urlpatterns: list[URLPattern | URLResolver] = []
 core_urlpatterns.extend(urlpatterns)
 core_urlpatterns.extend(ticket_urlpatterns)
+core_urlpatterns.extend(review_urlpatterns)
