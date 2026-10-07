@@ -12,6 +12,8 @@ from core.forms.ticket import TicketForm
 from core.data_managers.ticket import (
     TicketCreateConfig,
     TicketCollectionConfig,
+    TicketDetailConfig,
+    TicketUpdateConfig,
     TickeService,
 )
 
@@ -58,15 +60,45 @@ class TicketCollectionView(View):
 
 class TicketDetailView(View):
     def get(self, request: HttpRequest, request_parameters: str):
-        pass
+        config = TicketDetailConfig(
+            request_user=request.user,
+            request_parameter=request_parameters,
+        )
+        ticket_service = TickeService()
+        ticket = ticket_service.get_ticket(config)
+
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.detail("ticket"),
+            context={"ticket": ticket},
+        )
 
 
 class TicketUpdateView(View):
-    def get(self, request: HttpRequest):
-        pass
+    def get(self, request: HttpRequest, request_parameters: str):
+        config = TicketDetailConfig(
+            request_user=request.user,
+            request_parameter=request_parameters,
+        )
+        ticket_service = TickeService()
+        ticket = ticket_service.get_ticket(config)
+        form = TicketForm(instance=ticket)
 
-    def post(self, request: HttpRequest):
-        pass
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.update("ticket"),
+            context={"form": form},
+        )
+
+    def post(self, request: HttpRequest, request_parameters: str):
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            config = TicketUpdateConfig(
+                request_user=request.user, request_parameter=request_parameters, cleaned_data=form.cleaned_data
+            )
+            ticket_service = TickeService()
+            ticket_service.update_ticket(config)
+            return redirect("ticket_detail", request_parameters=request_parameters)
 
 
 class TicketDeleteView(View):

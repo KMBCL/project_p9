@@ -13,8 +13,8 @@ class TicketForm(forms.ModelForm[Ticket]):
             Ticket.time_created.field.name,
         ]
 
-    widgets: dict[str, Any] = {
-        Ticket.title.field.name: forms.TextInput(),
-        Ticket.description.field.name: forms.Textarea(),
-        Ticket.image.field.name: forms.ImageField(),
-    }
+        widgets: dict[str, Any] = {
+            Ticket.title.field.name: forms.TextInput(),
+            Ticket.description.field.name: forms.Textarea(),
+            Ticket.image.field.name: forms.FileInput(),
+        }

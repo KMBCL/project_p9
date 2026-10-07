@@ -1,0 +1,19 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+    <a href="{% url 'ticket_update' ticket.pk %}">Modifier</a>
+
+    <div>
+        time_created : {{ ticket.time_created }}
+    </div>
+    <div>
+        title : {{ ticket.title }}
+    </div>
+    <div>
+        description : {{ ticket.description }}
+    </div>
+    <div>
+        image : {{ ticket.image }}
+    </div>
+
+{% endblock %}
