@@ -32,7 +32,7 @@ class UserFollowsCreateView(View):
     def get_user_follows(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
         collection_config = UserFollowsCollectionConfig(request_user=request.user)
         user_follows_service = UserFollowsService()
-        return user_follows_service.get_followed_users(collection_config)
+        return user_follows_service.get_following_relations(collection_config)
 
     def get(self, request: HttpRequest) -> HttpResponse:
         form = FollowingForm()

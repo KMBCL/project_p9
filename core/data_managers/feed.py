@@ -50,8 +50,22 @@ class FeedService:
         tickets = self.get_viewable_tickets(config)
         reviews = self.get_viewable_reviews(config)
 
-        tickets = tickets.annotate(content_type=Value(CONTENT_TYPE.TICKET, CharField()))
-        reviews = reviews.annotate(content_type=Value(CONTENT_TYPE.REVIEW, CharField()))
+        tickets = tickets.annotate(
+            content_type=Value(
+                CONTENT_TYPE.TICKET,
+                CharField(),
+            )
+        )
+        reviews = reviews.annotate(
+            content_type=Value(
+                CONTENT_TYPE.REVIEW,
+                CharField(),
+            )
+        )
 
-        feed = sorted(chain(reviews, tickets), key=lambda feed: feed.time_created, reverse=True)
+        feed = sorted(
+            chain(reviews, tickets),
+            key=lambda feed: feed.time_created,
+            reverse=True,
+        )
         return feed

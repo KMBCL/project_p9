@@ -52,7 +52,7 @@ class UserFollowsService:
 
         return user_follows
 
-    def get_followed_users(self, config: UserFollowsCollectionConfig):
+    def get_following_relations(self, config: UserFollowsCollectionConfig):
         followed_users = UserFollows.objects.filter(user=config.request_user)
         return followed_users
 
