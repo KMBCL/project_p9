@@ -1,13 +1,12 @@
 from dataclasses import dataclass
-from itertools import chain
 
-from django.db.models import Q, CharField, Value, Prefetch, Exists, OuterRef
+from django.db.models import Q, Exists, OuterRef
 
-from core.constants import CONTENT_TYPE
+
 from core.models.user import User
-from core.models.userfollows import UserFollows
 from core.models.ticket import Ticket
 from core.models.review import Review
+from core.data_managers.helper.merge_posts import MergePostsConfig, merge_posts
 
 
 @dataclass
@@ -55,25 +54,9 @@ class FeedService:
         return reviews
 
     def get_feed(self, config: FeedConfig):
-        tickets = self.get_viewable_tickets(config)
-        reviews = self.get_viewable_reviews(config)
-
-        tickets = tickets.annotate(
-            content_type=Value(
-                CONTENT_TYPE.TICKET,
-                CharField(),
-            )
-        )
-        reviews = reviews.annotate(
-            content_type=Value(
-                CONTENT_TYPE.REVIEW,
-                CharField(),
-            )
+        merge_posts_config = MergePostsConfig(
+            tickets=self.get_viewable_tickets(config),
+            reviews=self.get_viewable_reviews(config),
         )
 
-        feed = sorted(
-            chain(reviews, tickets),
-            key=lambda feed: feed.time_created,
-            reverse=True,
-        )
-        return feed
+        return merge_posts(merge_posts_config)
