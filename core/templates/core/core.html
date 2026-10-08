@@ -18,7 +18,7 @@
             {% if user.is_authenticated %}
                 <nav>
                     <a href="{% url 'feed' %}">Flux</a>
-                    <a href="{% url 'ticket_collection' %}">Posts ??</a>
+                    <a href="{% url 'user_posts' %}">Posts</a>
                     <a href="{% url 'userfollows_create' %}">Abonnements</a>
                 </nav>
             {% endif %}

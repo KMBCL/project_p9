@@ -23,4 +23,15 @@
     <div class="snippet__body">
         {% include 'core/snippets/ticket_snippet.html' with ticket=review.ticket %}
     </div>
+
+    {% if review.editable %}
+        <div class="snippet__edit">
+            <button class="validate-button">
+                <a href={% url "review_update" review.pk %}>Modifier</a>
+            </button>
+            <button class="validate-button">
+                <a href={% url "review_delete" review.pk %}>Supprimer</a>
+            </button>
+        </div>
+    {% endif %} 
 </div>

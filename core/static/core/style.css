@@ -106,7 +106,7 @@ header{
 
     padding: 1rem;
 }
-.feed{
+.all_posts{
     display: grid;
     grid-template-columns: 1fr;
     

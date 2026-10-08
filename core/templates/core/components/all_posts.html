@@ -1,0 +1,9 @@
+<section class="all_posts">
+    {% for item in all_posts %}
+        {% if item.content_type == 'review'%}
+            {% include 'core/snippets/review_snippet.html' with review=item %}
+        {% elif item.content_type == 'ticket' %}
+            {% include 'core/snippets/ticket_snippet.html' with ticket=item %}
+        {% endif %}
+    {% endfor %}
+</section>

@@ -27,4 +27,15 @@
             </button>
         </div>
     {% endif %}
-</div>
+
+    {% if ticket.editable %}
+        <div class="snippet__edit">
+            <button class="validate-button">
+                <a href={% url "ticket_update" ticket.pk %}>Modifier</a>
+            </button>
+            <button class="validate-button">
+                <a href={% url "ticket_delete" ticket.pk %}>Supprimer</a>
+            </button>
+        </div>
+    {% endif %}    
+</div> 

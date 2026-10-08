@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from core.constants import TEMPLATE_PATHS
 from core.data_managers.feed import FeedConfig, FeedService
@@ -16,9 +16,7 @@ if TYPE_CHECKING:
 class FeedView(View):
 
     def get(self, request: HttpRequest):
-        config = FeedConfig(
-            request_user=request.user,
-        )
+        config = FeedConfig(request_user=request.user)
         service = FeedService()
         feed = service.get_feed(config)
 

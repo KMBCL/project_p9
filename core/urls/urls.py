@@ -7,6 +7,7 @@ from core.urls.url_shortcut_creator import URLShortcutCreator
 from core.views.authentication import home_view, logout_view
 from core.views.register import RegisterView
 from core.views.feed import FeedView
+from core.views.user_posts import UserPostsView
 
 
 import core.views.ticket as TicketViews
@@ -18,6 +19,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path("logout/", logout_view, name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path("feed/", login_required(FeedView.as_view()), name="feed"),
+    path("user_posts/", login_required(UserPostsView.as_view()), name="user_posts"),
 ]
 
 ticket_urlpatterns: list[URLPattern | URLResolver] = [

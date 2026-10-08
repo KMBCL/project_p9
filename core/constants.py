@@ -8,6 +8,7 @@ class TEMPLATE_PATHS(StrEnum):
     REGISTER_TEMPLATE_PATH = "core/register/register.html"
     FOLLOWING_TEMPLATE_PATH = "core/followers/following.html"
     FEED = "core/feed.html"
+    USER_POSTS = "core/user_posts.html"
 
 
 class VIEW_TYPES(StrEnum):
