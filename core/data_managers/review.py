@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from typing import Any
 
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Exists
 from core.models.review import Review
 from core.models.ticket import Ticket
 from core.models.user import User
@@ -33,6 +33,13 @@ class ReviewCollectionConfig:
     request_user: User
 
 
+class ReviewValidator:
+
+    def has_user_reviews(self, request_user: User, ticket: Ticket) -> Exists:
+        user_review_exists = Exists(Review.objects.filter(user=request_user, ticket=ticket))
+        return user_review_exists
+
+
 class ReviewService:
 
     def __init__(self):
@@ -57,6 +64,13 @@ class ReviewService:
     def create_from_review(self, config: ReviewCreateFromConfig):
         ticket = Ticket.objects.filter(pk=config.ticket_pk).first()
         if ticket is None:
+            return None
+
+        validator = ReviewValidator()
+        if validator.has_user_reviews(
+            request_user=config.request_user,
+            ticket=ticket,
+        ):
             return None
 
         review = Review.objects.create(
