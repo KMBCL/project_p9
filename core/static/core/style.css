@@ -30,7 +30,12 @@ h4 {
     margin: 0;
     text-align: center;
 }
-
+main{
+    display: grid;
+    grid-template-columns: 1fr;
+    
+    gap:1rem;
+}
 .main-container{
     display: grid;
     grid-template-columns: 1fr;
@@ -164,4 +169,22 @@ header{
 
 .fileinput{
     width: 20rem;
+}
+
+.following_panel__users{
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: .5rem;
+}
+
+.following_panel__user{
+    display: grid;
+    grid-template-columns: 1fr 10rem;
+    align-items: center;
+    padding: .2rem;
+
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: black;
 }

@@ -19,9 +19,15 @@
     <h2>Abonnements</h2>
 
     <section id="following_panel">
-        <ul>
+        <ul class="following_panel__users">
             {% for followed_user in user_follows%}
-                <li> {{ followed_user.followed_user.username }} <a href="{% url 'userfollows_delete' followed_user.pk %}">Arrêter de suivre</a> </li>
+                <li class="following_panel__user"> 
+                    {{ followed_user.followed_user.username }} 
+                    
+                    <button class="validate-button">
+                        <a href="{% url 'userfollows_delete' followed_user.pk %}">Arrêter de suivre</a>
+                    </button>    
+                </li>
             {% endfor %}
         </ul>
     </section>

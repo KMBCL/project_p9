@@ -97,7 +97,7 @@ class UserFollowsDeleteView(View):
             ticket_service = UserFollowsService()
             ticket_service.delete_user_follows(config)
 
-            return redirect("ticket_collection")
+            return redirect("userfollows_create")
 
         ticket = self.get_user_follows(request_parameters)
 

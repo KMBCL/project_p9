@@ -8,9 +8,9 @@ CONFIRM = "CONFIRMER"
 
 class DeleteForm(forms.Form):
     confirm = forms.CharField(
-        label="Confirmation",
+        label="Confirmation : Saisissez 'CONFIRMER' dans le champ",
         max_length=10,
-        widget=forms.TextInput,
+        widget=forms.TextInput(attrs={"class": "textinput"}),
     )
 
     def clean(self) -> dict[str, Any] | None:
