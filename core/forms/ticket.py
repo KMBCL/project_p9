@@ -6,6 +6,12 @@ from core.models.ticket import Ticket
 
 
 class TicketForm(forms.ModelForm[Ticket]):
+    field_order = [
+        Ticket.title.field.name,
+        Ticket.description.field.name,
+        Ticket.image.field.name,
+    ]
+
     class Meta:
         model = Ticket
         exclude = [
@@ -17,4 +23,10 @@ class TicketForm(forms.ModelForm[Ticket]):
             Ticket.title.field.name: forms.TextInput(attrs={"class": "textinput"}),
             Ticket.description.field.name: forms.Textarea(attrs={"class": "textarea"}),
             Ticket.image.field.name: forms.FileInput(attrs={"class": "fileinput"}),
+        }
+
+        labels: dict[str, str] = {
+            Ticket.title.field.name: "Titre",
+            Ticket.description.field.name: "Description",
+            Ticket.image.field.name: "Image",
         }

@@ -8,8 +8,19 @@ from core.models.ticket import Ticket
 from core.models.user import User
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ReviewCreateConfig:
+    request_user: User
+    ticket_title: str
+    ticket_description: str
+    ticket_image: bytes | None
+    review_headline: str
+    review_rating: int
+    review_body: str
+
+
+@dataclass
+class ReviewCreateFromConfig:
     ticket_pk: int
     rating: int
     headline: str
@@ -28,6 +39,22 @@ class ReviewService:
         pass
 
     def create_review(self, config: ReviewCreateConfig):
+        ticket = Ticket.objects.create(
+            title=config.ticket_title,
+            description=config.ticket_description,
+            user=config.request_user,
+            image=config.ticket_image,
+        )
+        review = Review.objects.create(
+            ticket=ticket,
+            rating=config.review_rating,
+            headline=config.review_headline,
+            body=config.review_body,
+            user=config.request_user,
+        )
+        return review
+
+    def create_from_review(self, config: ReviewCreateFromConfig):
         ticket = Ticket.objects.filter(pk=config.ticket_pk).first()
         if ticket is None:
             return None

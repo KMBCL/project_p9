@@ -6,6 +6,12 @@ from core.models.review import Review
 
 
 class ReviewForm(forms.ModelForm[Review]):
+    field_order = [
+        Review.headline.field.name,
+        Review.rating.field.name,
+        Review.body.field.name,
+    ]
+
     class Meta:
         model = Review
         exclude = [
@@ -15,7 +21,13 @@ class ReviewForm(forms.ModelForm[Review]):
         ]
 
         widgets: dict[str, Any] = {
-            Review.rating.field.name: forms.TextInput(),
-            Review.headline.field.name: forms.TextInput(),
-            Review.body.field.name: forms.Textarea(),
+            Review.headline.field.name: forms.TextInput(attrs={"class": "textinput"}),
+            Review.rating.field.name: forms.TextInput(attrs={"class": "textinput"}),
+            Review.body.field.name: forms.Textarea(attrs={"class": "textarea"}),
+        }
+
+        labels: dict[str, str] = {
+            Review.headline.field.name: "Titre",
+            Review.rating.field.name: "Note",
+            Review.body.field.name: "Commentaire",
         }
