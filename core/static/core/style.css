@@ -5,10 +5,9 @@
 body {
     margin: 0;
     display: grid;
+    grid-template-columns: 1fr;
     justify-content: center;
-    font-family: "Oswald", sans-serif;
-
-    width: 100%;
+    font-family: "Oswald", sans-serif;        
 }
 
 ul,
@@ -25,6 +24,16 @@ h4 {
     padding: 0;
     margin: 0;
     text-align: center;
+}
+
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap:1rem;
+    padding-top: 1rem;
+    padding-left: 5rem;
+    padding-right: 5rem;    
 }
 
 header{

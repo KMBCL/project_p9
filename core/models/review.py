@@ -16,13 +16,11 @@ class Review(models.Model):
         to=Ticket,
         on_delete=models.CASCADE,
     )
-    rating: models.PositiveSmallIntegerField[int, int] = (
-        models.PositiveSmallIntegerField(
-            validators=[
-                MinValueValidator(0),
-                MaxValueValidator(5),
-            ]
-        )
+    rating: models.PositiveSmallIntegerField[int, int] = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(5),
+        ]
     )
     headline: models.CharField[str, str] = models.CharField(
         max_length=128,

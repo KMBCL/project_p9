@@ -17,3 +17,8 @@ class VIEW_TYPES(StrEnum):
     DETAIL = "detail"
     UPDATE = "update"
     DELETE = "delete"
+
+
+class CONTENT_TYPE(StrEnum):
+    REVIEW = "review"
+    TICKET = "ticket"
