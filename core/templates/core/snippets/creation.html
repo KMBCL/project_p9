@@ -1,0 +1,12 @@
+<div class="snippet__creation">
+    <div class="snippet__created_by">
+        {% if item.user == user %}
+            Vous avez publie une critique
+        {% else %}
+            {{ item.user.username }} a poste une critique
+        {% endif %}
+    </div>
+    <div class="snippet__created_at">
+        {{ item.time_created }}
+    </div>
+</div>

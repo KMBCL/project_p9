@@ -1,0 +1,22 @@
+<div class="snippet">
+    <div class="snippet__creation">
+        <div class="snippet__created_by">
+            {% if ticket.user == user %}
+                Vous avez demande une critique
+            {% else %}
+                {{ ticket.user.username }} a demande une critique
+            {% endif %}
+        </div>
+        <div class="snippet__created_at">
+            {{ ticket.time_created }}
+        </div>
+    </div>
+
+    <div class="">
+        {{ ticket.title }} - {{ ticket.description }}
+    </div>
+
+    <div>
+        placeholder - image
+    </div>
+</div>

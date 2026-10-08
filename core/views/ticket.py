@@ -46,7 +46,7 @@ class TicketCreateView(View):
             )
             ticket_service = TickeService()
             ticket_service.create_ticket(config)
-            return redirect("ticket_collection")
+            return redirect("feed")
 
         return render(
             request=request,

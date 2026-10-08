@@ -1,0 +1,26 @@
+<div class="snippet">
+    <div class="snippet__creation">
+        <div class="snippet__created_by">
+            {% if review.user == user %}
+                Vous avez publie une critique
+            {% else %}
+                {{ review.user.username }} a poste une critique
+            {% endif %}
+        </div>
+        <div class="snippet__created_at">
+            {{ review.time_created }}
+        </div>
+    </div>
+
+    <div class="">
+        {{ review.headline }} - {{ review.rating }}
+    </div>
+
+    <p>
+        {{ review.body }}
+    </p>
+
+    <div class="snippet__body">
+        {% include 'core/snippets/ticket_snippet.html' with ticket=review.ticket %}
+    </div>
+</div>

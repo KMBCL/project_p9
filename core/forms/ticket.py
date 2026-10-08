@@ -14,7 +14,7 @@ class TicketForm(forms.ModelForm[Ticket]):
         ]
 
         widgets: dict[str, Any] = {
-            Ticket.title.field.name: forms.TextInput(),
-            Ticket.description.field.name: forms.Textarea(),
-            Ticket.image.field.name: forms.FileInput(),
+            Ticket.title.field.name: forms.TextInput(attrs={"class": "textinput"}),
+            Ticket.description.field.name: forms.Textarea(attrs={"class": "textarea"}),
+            Ticket.image.field.name: forms.FileInput(attrs={"class": "fileinput"}),
         }

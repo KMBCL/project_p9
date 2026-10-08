@@ -1,5 +1,27 @@
 {% extends "core/core.html" %}
 
 {% block content %}
-    so much fun here!
+    <section class="feed-actions">
+        <div>
+            <button class="validate-button">
+                <a href="{% url 'ticket_create' %}">Demander une critique</a>
+            </button>
+        </div>
+        <div>
+            <button class="validate-button">
+                Creer une critique
+            </button>
+        </div>
+    </section>
+
+    <section class="feed">
+        {% for item in feed %}
+            {% if item.content_type == 'review'%}
+                {% include 'core/snippets/review_snippet.html' with review=item %}
+            {% elif item.content_type == 'ticket' %}
+                {% include 'core/snippets/ticket_snippet.html' with ticket=item %}
+            {% endif %}
+        {% endfor %}
+    </section>
+    
 {% endblock %}

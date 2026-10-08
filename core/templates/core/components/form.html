@@ -1,13 +1,19 @@
 
-<form method="post">
+<form method="post" class="form">
     {% csrf_token %}
     {{ form.errors }}
     {% for field in form %}
-        <div class="form-field">
+        <div class="form__label">
             {{ field.label }}
+        </div>
+        
+        <div class="form__field">
             {{ field }}
             {{ field.errors }}
         </div>
     {% endfor %}
-    <button type="submit">Valider</button>
+
+    <div class="form__button">
+        <button type="submit" class="validate-button">Valider</button>
+    </div>
 </form>
