@@ -15,7 +15,6 @@ import core.views.userfollows as UserFollowsViews
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("home/", home_view, name="home"),
-    # path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path("feed/", login_required(FeedView.as_view()), name="feed"),
@@ -45,6 +44,11 @@ ticket_urlpatterns: list[URLPattern | URLResolver] = [
 ]
 
 review_urlpatterns: list[URLPattern | URLResolver] = [
+    path(
+        URLCreator.create("review"),
+        login_required(ReviewViews.ReviewCreateView.as_view()),
+        name=URLShortcutCreator.create("review"),
+    ),
     path(
         URLCreator.create_from("review"),
         login_required(ReviewViews.ReviewCreateFromView.as_view()),

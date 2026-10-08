@@ -144,6 +144,28 @@ header{
     gap: 1em;
 }
 
+.form__subform{
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 1em;
+    padding: 1rem;
+    
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: black;
+
+}
+
+.form__subtitle{
+    display: grid;
+    grid-template-columns: 1fr;
+
+    justify-items: start;
+}
+
+
+
 .form__label{
     
 }

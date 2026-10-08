@@ -12,6 +12,7 @@
         <section class="home-section"> 
             <h2>Connectez-vous</h2>            
             <form method="post" class="login-panel">
+                {% csrf_token %}
                 <div class="login-panel__form">
                     {% include "core/components/form_content.html" %}
                 </div>

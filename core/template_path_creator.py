@@ -8,6 +8,10 @@ class TemplatePathCreator:
         return f"core/{model_name}/{VIEW_TYPES.CREATE}.html"
 
     @staticmethod
+    def create_from(model_name: str) -> str:
+        return f"core/{model_name}/{VIEW_TYPES.CREATE_FROM}.html"
+
+    @staticmethod
     def collection(model_name: str) -> str:
         return f"core/{model_name}/{VIEW_TYPES.COLLECTION}.html"
 

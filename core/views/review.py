@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from core.template_path_creator import TemplatePathCreator
 
 from core.forms.review import ReviewForm
+from core.forms.ticket import TicketForm
 from core.forms.delete import DeleteForm
 from core.data_managers.review import (
     ReviewCreateConfig,
@@ -20,13 +21,28 @@ if TYPE_CHECKING:
     from core.models.review import Review
 
 
+class ReviewCreateView(View):
+    def get(self, request: HttpRequest):
+        ticket_form = TicketForm()
+        review_form = ReviewForm()
+
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.create("review"),
+            context={
+                "ticket_form": ticket_form,
+                "review_form": review_form,
+            },
+        )
+
+
 class ReviewCreateFromView(View):
     def get(self, request: HttpRequest, request_parameters: str):
         form = ReviewForm()
 
         return render(
             request=request,
-            template_name=TemplatePathCreator.create("review"),
+            template_name=TemplatePathCreator.create_from("review"),
             context={"form": form},
         )
 
@@ -46,7 +62,7 @@ class ReviewCreateFromView(View):
 
         return render(
             request=request,
-            template_name=TemplatePathCreator.create("review"),
+            template_name=TemplatePathCreator.create_from("review"),
             context={"form": form},
         )
 

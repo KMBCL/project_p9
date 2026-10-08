@@ -2,16 +2,7 @@
 <form method="post" class="form">
     {% csrf_token %}
     {{ form.errors }}
-    {% for field in form %}
-        <div class="form__label">
-            {{ field.label }}
-        </div>
-        
-        <div class="form__field">
-            {{ field }}
-            {{ field.errors }}
-        </div>
-    {% endfor %}
+    {% include "core/components/form_content.html" with form=form %}
 
     <div class="form__button">
         <button type="submit" class="validate-button">Valider</button>

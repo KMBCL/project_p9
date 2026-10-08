@@ -1,9 +1,33 @@
 {% extends "core/core.html" %}
 
 {% block content %}
-    create review
+    <h2>Creer une critique</h2>
     
     <div id="review_panel">
-        {% include "core/components/form.html"%}
+        <form method="post" class="form">
+            {% csrf_token %}
+
+            <div class="form__subform">
+                <div class="form__subtitle">
+                    <h3>Livre / Article</h3>
+                </div>
+            
+                {% include "core/components/form_content.html" with form=ticket_form %}
+            </div>
+
+            <div class="form__subform">
+                <div class="form__subtitle">
+                    <h3>Critique</h3>
+                </div>
+            
+                {% include "core/components/form_content.html" with form=review_form %}
+            </div>
+            
+            <div class="form__button">
+                <button class="validate-button" type="submit">
+                    Valider
+                </button>
+            </div>
+        </form>  
     </div>
 {% endblock %}
