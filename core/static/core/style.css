@@ -75,6 +75,30 @@ header{
     gap: 1rem;
     padding: 1rem;
 }
+
+.section{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: start;
+
+    gap: 1rem;
+    padding: 1rem;
+    width: 100%;
+
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: black;
+}
+
+.section__ticket-snippet{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+
+    width: 100%;
+}
+
+
 .login-panel{
     display: grid;
     grid-template-columns: 1fr;
@@ -148,6 +172,7 @@ header{
     grid-template-columns: 1fr;
 
     gap: 1em;
+    width: 100%;
 }
 
 .form__subform{

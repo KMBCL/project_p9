@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Creer une critique</h2>
     
-    <div id="review_panel">
+    <section class="section">
         <form method="post" class="form">
             {% csrf_token %}
 
@@ -29,5 +29,5 @@
                 </button>
             </div>
         </form>  
-    </div>
+    <section>
 {% endblock %}
