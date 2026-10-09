@@ -25,6 +25,17 @@ if TYPE_CHECKING:
     from core.models.ticket import Ticket
 
 
+def get_user_ticket(request: HttpRequest, request_parameters: str) -> Ticket | None:
+    config = TicketDetailConfig(
+        request_user=request.user,
+        request_parameter=request_parameters,
+    )
+    ticket_service = TickeService()
+    ticket = ticket_service.get_user_ticket(config)
+
+    return ticket
+
+
 class TicketCreateView(View):
     def get(self, request: HttpRequest):
         form = TicketForm()
@@ -70,18 +81,8 @@ class TicketCollectionView(View):
 
 class TicketUpdateView(View):
 
-    def get_user_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
-        config = TicketDetailConfig(
-            request_user=request.user,
-            request_parameter=request_parameters,
-        )
-        ticket_service = TickeService()
-        ticket = ticket_service.get_user_ticket(config)
-
-        return ticket
-
     def get(self, request: HttpRequest, request_parameters: str):
-        ticket = self.get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, request_parameters)
         form = TicketForm(instance=ticket)
 
         return render(
@@ -98,7 +99,7 @@ class TicketUpdateView(View):
             )
             ticket_service = TickeService()
             ticket_service.update_ticket(config)
-            return redirect("ticket_detail", request_parameters=request_parameters)
+            return redirect("user_posts")
 
         return render(
             request=request,
@@ -109,19 +110,9 @@ class TicketUpdateView(View):
 
 class TicketDeleteView(View):
 
-    def get_user_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
-        config = TicketDetailConfig(
-            request_user=request.user,
-            request_parameter=request_parameters,
-        )
-        ticket_service = TickeService()
-        ticket = ticket_service.get_user_ticket(config)
-
-        return ticket
-
     def get(self, request: HttpRequest, request_parameters: str):
         form = DeleteForm()
-        ticket = self.get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, request_parameters)
 
         return render(
             request=request,
@@ -142,9 +133,9 @@ class TicketDeleteView(View):
             ticket_service = TickeService()
             ticket_service.delete_ticket(config)
 
-            return redirect("ticket_collection")
+            return redirect("user_posts")
 
-        ticket = self.get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, request_parameters)
 
         return render(
             request=request,

@@ -26,6 +26,16 @@ if TYPE_CHECKING:
     from core.models.review import Review
 
 
+def get_user_review(request: HttpRequest, request_parameters: str):
+    config = ReviewDetailConfig(
+        request_user=request.user,
+        request_parameter=request_parameters,
+    )
+    service = ReviewService()
+    review = service.get_user_review(config)
+    return review
+
+
 class ReviewCreateView(View):
     def get(self, request: HttpRequest):
         ticket_form = TicketForm(prefix="ticket")
@@ -135,18 +145,30 @@ class ReviewDetailView(View):
 
 class ReviewUpdateView(View):
 
-    def get_user_review(self, request: HttpRequest, request_parameters: str):
-        config = ReviewDetailConfig(
-            request_user=request.user,
-            request_parameter=request_parameters,
-        )
-        service = ReviewService()
-        review = service.get_user_review(config)
-        return review
-
     def get(self, request: HttpRequest, request_parameters: str):
-        review = self.get_user_review(request, request_parameters)
+        review = get_user_review(request, request_parameters)
         form = ReviewForm(instance=review)
+        ticket = review.ticket if review is not None else None
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.update("review"),
+            context={
+                "form": form,
+                "reviewed_ticket": ticket,
+            },
+        )
+
+    def post(self, request: HttpRequest, request_parameters: str):
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            config = ReviewUpdateConfig(
+                request_user=request.user, request_parameter=request_parameters, cleaned_data=form.cleaned_data
+            )
+            ticket_service = ReviewService()
+            ticket_service.update_review(config)
+            return redirect("user_posts")
+
+        review = get_user_review(request, request_parameters)
         ticket = review.ticket if review is not None else None
         return render(
             request=request,
@@ -159,4 +181,39 @@ class ReviewUpdateView(View):
 
 
 class ReviewDeleteView(View):
-    pass
+
+    def get(self, request: HttpRequest, request_parameters: str):
+        form = DeleteForm()
+        review = get_user_review(request, request_parameters)
+
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.delete("review"),
+            context={
+                "form": form,
+                "review": review,
+            },
+        )
+
+    def post(self, request: HttpRequest, request_parameters: str):
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            config = ReviewDeleteConfig(
+                request_user=request.user,
+                request_parameter=request_parameters,
+            )
+            review_service = ReviewService()
+            review_service.delete_review(config)
+
+            return redirect("user_posts")
+
+        review = get_user_review(request, request_parameters)
+
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.delete("review"),
+            context={
+                "form": form,
+                "review": review,
+            },
+        )
