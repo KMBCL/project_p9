@@ -33,6 +33,25 @@ class ReviewCollectionConfig:
     request_user: User
 
 
+@dataclass
+class ReviewDetailConfig:
+    request_user: User
+    request_parameter: str
+
+
+@dataclass
+class ReviewUpdateConfig:
+    request_user: User
+    request_parameter: str
+    cleaned_data: dict[str, Any]
+
+
+@dataclass
+class ReviewDeleteConfig:
+    request_user: User
+    request_parameter: str
+
+
 class ReviewValidator:
 
     def has_user_reviews(self, request_user: User, ticket: Ticket) -> Exists:
@@ -85,3 +104,37 @@ class ReviewService:
     def get_reviews(self, config: ReviewCollectionConfig):
         reviews = Review.objects.filter(user=config.request_user)
         return reviews
+
+    def get_user_review(self, config: ReviewDetailConfig):
+        review = (
+            Review.objects.filter(
+                user=config.request_user,
+                pk=int(config.request_parameter),
+            )
+            .select_related()
+            .first()
+        )
+        return review
+
+    def update_review(self, config: ReviewUpdateConfig) -> Review | None:
+        review = Review.objects.filter(
+            user=config.request_user,
+            pk=int(config.request_parameter),
+        ).first()
+        if review is None:
+            return None
+
+        for name, value in config.cleaned_data.items():
+            setattr(review, name, value)
+        review.save()
+
+    def delete_review(self, config: ReviewDeleteConfig) -> None:
+        review = Review.objects.filter(
+            user=config.request_user,
+            pk=int(config.request_parameter),
+        ).first()
+
+        if review is None:
+            return None
+
+        review.delete()

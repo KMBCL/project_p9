@@ -3,8 +3,12 @@
 {% block content %}
     <h2>Modifier votre critique</h2>  
     
+    <section class="section">
+        {% include "core/components/from_ticket.html" %}
 
-    <div id="ticket_panel">
-        {% include "core/components/form.html"%}
-    </div>
+        <section class="section">
+            <h3>Critique :</h3>
+            {% include "core/components/form.html"%}
+        </section>
+    </section>
 {% endblock %}

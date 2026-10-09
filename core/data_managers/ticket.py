@@ -58,7 +58,10 @@ class TickeService:
         return tickets
 
     def get_user_ticket(self, config: TicketDetailConfig) -> Ticket | None:
-        ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
+        ticket = Ticket.objects.filter(
+            user=config.request_user,
+            pk=int(config.request_parameter),
+        ).first()
         return ticket
 
     def get_ticket(self, config: TicketDetailConfig) -> Ticket | None:
@@ -66,7 +69,12 @@ class TickeService:
         return ticket
 
     def update_ticket(self, config: TicketUpdateConfig) -> Ticket | None:
-        ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
+        detail_config = TicketDetailConfig(
+            request_user=config.request_user,
+            request_parameter=config.request_parameter,
+        )
+        ticket = self.get_user_ticket(detail_config)
+
         if ticket is None:
             return None
 
@@ -75,7 +83,12 @@ class TickeService:
         ticket.save()
 
     def delete_ticket(self, config: TicketDeleteConfig) -> None:
-        ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
+        detail_config = TicketDetailConfig(
+            request_user=config.request_user,
+            request_parameter=config.request_parameter,
+        )
+        ticket = self.get_user_ticket(detail_config)
+
         if ticket is None:
             return None
 

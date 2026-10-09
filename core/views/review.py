@@ -14,6 +14,9 @@ from core.data_managers.review import (
     ReviewCreateConfig,
     ReviewCreateFromConfig,
     ReviewCollectionConfig,
+    ReviewDetailConfig,
+    ReviewUpdateConfig,
+    ReviewDeleteConfig,
     ReviewService,
 )
 from core.data_managers.ticket import TicketDetailConfig, TickeService
@@ -131,7 +134,28 @@ class ReviewDetailView(View):
 
 
 class ReviewUpdateView(View):
-    pass
+
+    def get_user_review(self, request: HttpRequest, request_parameters: str):
+        config = ReviewDetailConfig(
+            request_user=request.user,
+            request_parameter=request_parameters,
+        )
+        service = ReviewService()
+        review = service.get_user_review(config)
+        return review
+
+    def get(self, request: HttpRequest, request_parameters: str):
+        review = self.get_user_review(request, request_parameters)
+        form = ReviewForm(instance=review)
+        ticket = review.ticket if review is not None else None
+        return render(
+            request=request,
+            template_name=TemplatePathCreator.update("review"),
+            context={
+                "form": form,
+                "reviewed_ticket": ticket,
+            },
+        )
 
 
 class ReviewDeleteView(View):
