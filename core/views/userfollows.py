@@ -27,6 +27,17 @@ if TYPE_CHECKING:
     from core.models.userfollows import UserFollows
 
 
+def get_user_follows(request: HttpRequest, request_parameters: str) -> UserFollows | None:
+    config = UserFollowsDetailConfig(
+        request_user=request.user,
+        request_parameters=request_parameters,
+    )
+    user_follows_service = UserFollowsService()
+    user_follows = user_follows_service.get_user_follows(config)
+
+    return user_follows
+
+
 class UserFollowsView(View):
 
     def get_following_relations(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
@@ -79,16 +90,9 @@ class UserFollowsView(View):
 
 class UserFollowsDeleteView(View):
 
-    def get_user_follows(self, request_parameters: str) -> UserFollows | None:
-        config = UserFollowsDetailConfig(pk=request_parameters)
-        user_follows_service = UserFollowsService()
-        user_follows = user_follows_service.get_user_follows(config)
-
-        return user_follows
-
     def get(self, request: HttpRequest, request_parameters: str):
         form = DeleteForm()
-        user_follows = self.get_user_follows(request_parameters)
+        user_follows = get_user_follows(request, request_parameters)
 
         return render(
             request=request,
@@ -102,13 +106,16 @@ class UserFollowsDeleteView(View):
     def post(self, request: HttpRequest, request_parameters: str):
         form = DeleteForm(request.POST)
         if form.is_valid():
-            config = UserFollowsDeleteConfig(pk=request_parameters)
+            config = UserFollowsDeleteConfig(
+                request_user=request.user,
+                request_parameters=request_parameters,
+            )
             user_follows_service = UserFollowsService()
             user_follows_service.delete_user_follows(config)
 
             return redirect("userfollows")
 
-        user_follows = self.get_user_follows(request_parameters)
+        user_follows = get_user_follows(request, request_parameters)
 
         return render(
             request=request,
