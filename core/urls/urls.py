@@ -79,11 +79,7 @@ review_urlpatterns: list[URLPattern | URLResolver] = [
 ]
 
 user_follows_urlpattenrs: list[URLPattern | URLResolver] = [
-    path(
-        URLCreator.create("userfollows"),
-        login_required(UserFollowsViews.UserFollowsCreateView.as_view()),
-        name=URLShortcutCreator.create("userfollows"),
-    ),
+    path("userfollows/", login_required(UserFollowsViews.UserFollowsView.as_view()), name="userfollows"),
     path(
         URLCreator.delete("userfollows"),
         login_required(UserFollowsViews.UserFollowsDeleteView.as_view()),

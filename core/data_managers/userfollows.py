@@ -53,11 +53,15 @@ class UserFollowsService:
         return user_follows
 
     def get_following_relations(self, config: UserFollowsCollectionConfig):
-        followed_users = UserFollows.objects.filter(user=config.request_user)
-        return followed_users
+        following_users = UserFollows.objects.filter(user=config.request_user).select_related()
+        return following_users
+
+    def get_followed_by_relations(self, config: UserFollowsCollectionConfig):
+        followed_by_users = UserFollows.objects.filter(followed_user=config.request_user).select_related()
+        return followed_by_users
 
     def get_user_follows(self, config: UserFollowsDetailConfig):
-        user_follows = UserFollows.objects.filter(pk=int(config.pk)).first()
+        user_follows = UserFollows.objects.filter(pk=int(config.pk)).select_related().first()
         return user_follows
 
     def delete_user_follows(self, config: UserFollowsDeleteConfig) -> None:

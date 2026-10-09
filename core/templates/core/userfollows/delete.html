@@ -1,0 +1,10 @@
+{% extends "core/core.html" %}
+
+{% block content %}
+    <h2>Supprimer suivi : {{ user_follows.followed_user.username }}</h2>
+    
+
+    <section>
+        {% include "core/components/form.html"%}
+    </section>
+{% endblock %}

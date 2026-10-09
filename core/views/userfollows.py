@@ -12,7 +12,7 @@ from core.template_path_creator import TemplatePathCreator
 from core.forms.following import FollowingForm
 from core.forms.delete import DeleteForm
 
-from core.data_managers.followers import (
+from core.data_managers.userfollows import (
     UserFollowsCreateConfig,
     UserFollowsCollectionConfig,
     UserFollowsDetailConfig,
@@ -27,22 +27,29 @@ if TYPE_CHECKING:
     from core.models.userfollows import UserFollows
 
 
-class UserFollowsCreateView(View):
+class UserFollowsView(View):
 
-    def get_user_follows(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
+    def get_following_relations(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
         collection_config = UserFollowsCollectionConfig(request_user=request.user)
         user_follows_service = UserFollowsService()
         return user_follows_service.get_following_relations(collection_config)
 
+    def get_followed_by_relations(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
+        collection_config = UserFollowsCollectionConfig(request_user=request.user)
+        user_follows_service = UserFollowsService()
+        return user_follows_service.get_followed_by_relations(collection_config)
+
     def get(self, request: HttpRequest) -> HttpResponse:
         form = FollowingForm()
-        user_follows = self.get_user_follows(request)
+        following_relations = self.get_following_relations(request)
+        followed_by_relations = self.get_followed_by_relations(request)
         return render(
             request=request,
-            template_name=TemplatePathCreator.create("userfollows"),
+            template_name=TEMPLATE_PATHS.USER_FOLLOWS,
             context={
                 "form": form,
-                "user_follows": user_follows,
+                "following_relations": following_relations,
+                "followed_by_relations": followed_by_relations,
             },
         )
 
@@ -55,15 +62,17 @@ class UserFollowsCreateView(View):
             )
             user_follows_service = UserFollowsService()
             user_follows_service.create_user_follows(config)
-            return redirect("userfollows_create")
+            return redirect("userfollows")
 
-        user_follows = self.get_user_follows(request)
+        following_relations = self.get_following_relations(request)
+        followed_by_relations = self.get_followed_by_relations(request)
         return render(
             request=request,
-            template_name=TEMPLATE_PATHS.FOLLOWING_TEMPLATE_PATH,
+            template_name=TEMPLATE_PATHS.USER_FOLLOWS,
             context={
                 "form": form,
-                "user_follows": user_follows,
+                "following_relations": following_relations,
+                "followed_by_relations": followed_by_relations,
             },
         )
 
@@ -79,14 +88,14 @@ class UserFollowsDeleteView(View):
 
     def get(self, request: HttpRequest, request_parameters: str):
         form = DeleteForm()
-        ticket = self.get_user_follows(request_parameters)
+        user_follows = self.get_user_follows(request_parameters)
 
         return render(
             request=request,
-            template_name=TemplatePathCreator.delete("ticket"),
+            template_name=TemplatePathCreator.delete("userfollows"),
             context={
                 "form": form,
-                "ticket": ticket,
+                "user_follows": user_follows,
             },
         )
 
@@ -94,18 +103,18 @@ class UserFollowsDeleteView(View):
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = UserFollowsDeleteConfig(pk=request_parameters)
-            ticket_service = UserFollowsService()
-            ticket_service.delete_user_follows(config)
+            user_follows_service = UserFollowsService()
+            user_follows_service.delete_user_follows(config)
 
-            return redirect("userfollows_create")
+            return redirect("userfollows")
 
-        ticket = self.get_user_follows(request_parameters)
+        user_follows = self.get_user_follows(request_parameters)
 
         return render(
             request=request,
-            template_name=TemplatePathCreator.delete("ticket"),
+            template_name=TemplatePathCreator.delete("userfollows"),
             context={
                 "form": form,
-                "ticket": ticket,
+                "user_follows": user_follows,
             },
         )

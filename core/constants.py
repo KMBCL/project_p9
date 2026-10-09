@@ -6,9 +6,9 @@ class TEMPLATE_PATHS(StrEnum):
     LOGIN_TEMPLATE_PATH = "core/authentication/login.html"
     LOGOUT_TEMPLATE_PATH = "core/authentication/logout.html"
     REGISTER_TEMPLATE_PATH = "core/register/register.html"
-    FOLLOWING_TEMPLATE_PATH = "core/followers/following.html"
     FEED = "core/feed.html"
     USER_POSTS = "core/user_posts.html"
+    USER_FOLLOWS = "core/userfollows/userfollows.html"
 
 
 class VIEW_TYPES(StrEnum):
