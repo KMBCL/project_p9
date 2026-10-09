@@ -137,6 +137,12 @@ header{
     text-align: end;
 }
 
+.snippet__edit{
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    justify-items: end;
+}
+
 .form{
     display: grid;
     grid-template-columns: 1fr;
@@ -166,12 +172,11 @@ header{
 
 
 
-.form__label{
+.form__register-button{
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
     
-}
-
-.form__field{
-    
+    justify-items: end;
 }
 
 .form__button{

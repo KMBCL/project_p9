@@ -3,16 +3,16 @@
 {% block content %}
     <h2>Inscrivez-vous</h2>
     
-    <form method="post" class="login-panel">
-        <div class="login-panel__form">
-            {% include "core/components/form_content.html" %}
-        </div>
-        <div class="login-panel__button">
-            <button class="validate-button" type="submit">
-                Se connecter
-            </button>
+    <form method="post" class="form">
+        
+        {% include "core/components/form_content.html" %}
+        
+        <div class="form__register-button">
             <button class="validate-button">
                 <a href="{% url 'home' %}">Retourner</a>
+            </button>
+            <button class="validate-button" type="submit">
+                Se connecter
             </button>
         </div>
     </form>

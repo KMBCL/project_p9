@@ -16,6 +16,7 @@ from core.data_managers.review import (
     ReviewCollectionConfig,
     ReviewService,
 )
+from core.data_managers.ticket import TicketDetailConfig, TickeService
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
@@ -66,13 +67,22 @@ class ReviewCreateView(View):
 
 
 class ReviewCreateFromView(View):
+
+    def get_ticket(self, request: HttpRequest, request_parameters: str):
+        ticket_config = TicketDetailConfig(
+            request_user=request.user,
+            request_parameter=request_parameters,
+        )
+        ticket_service = TickeService()
+        return ticket_service.get_ticket(ticket_config)
+
     def get(self, request: HttpRequest, request_parameters: str):
         form = ReviewForm()
-
+        ticket = self.get_ticket(request, request_parameters)
         return render(
             request=request,
             template_name=TemplatePathCreator.create_from("review"),
-            context={"form": form},
+            context={"form": form, "ticket": ticket},
         )
 
     def post(self, request: HttpRequest, request_parameters: str):

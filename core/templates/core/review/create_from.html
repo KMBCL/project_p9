@@ -1,9 +1,16 @@
 {% extends "core/core.html" %}
 
 {% block content %}
-    create review
     
-    <div id="review_panel">
+    <h2>Créer une critique</h2>
+    <section class="">
+        <h3>Vous êtes en train de poster en réponse à :</h3>
+        {% include 'core/snippets/ticket_snippet.html' with ticket=ticket %}
+    </section>
+
+    
+    <section class="">
+        <h3>Critique :</h3>
         {% include "core/components/form.html"%}
-    </div>
+    </section>
 {% endblock %}
