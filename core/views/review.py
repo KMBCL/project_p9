@@ -126,23 +126,6 @@ class ReviewCreateFromView(View):
         )
 
 
-class ReviewCollectionView(View):
-    def get(self, request: HttpRequest) -> HttpResponse:
-        config = ReviewCollectionConfig(request_user=request.user)
-        review_service = ReviewService()
-        reviews = review_service.get_reviews(config)
-
-        return render(
-            request=request,
-            template_name=TemplatePathCreator.collection("review"),
-            context={"reviews": reviews},
-        )
-
-
-class ReviewDetailView(View):
-    pass
-
-
 class ReviewUpdateView(View):
 
     def get(self, request: HttpRequest, request_parameters: str):

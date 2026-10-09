@@ -12,14 +12,6 @@ class URLShortcutCreator:
         return f"{model_name}_{VIEW_TYPES.CREATE_FROM}"
 
     @staticmethod
-    def collection(model_name: str) -> str:
-        return f"{model_name}_{VIEW_TYPES.COLLECTION}"
-
-    @staticmethod
-    def detail(model_name: str) -> str:
-        return f"{model_name}_{VIEW_TYPES.DETAIL}"
-
-    @staticmethod
     def update(model_name: str) -> str:
         return f"{model_name}_{VIEW_TYPES.UPDATE}"
 

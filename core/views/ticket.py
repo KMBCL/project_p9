@@ -66,19 +66,6 @@ class TicketCreateView(View):
         )
 
 
-class TicketCollectionView(View):
-    def get(self, request: HttpRequest):
-        config = TicketCollectionConfig(request.user)
-        ticket_service = TickeService()
-        tickets = ticket_service.get_tickets(config)
-
-        return render(
-            request=request,
-            template_name=TemplatePathCreator.collection("ticket"),
-            context={"tickets": tickets},
-        )
-
-
 class TicketUpdateView(View):
 
     def get(self, request: HttpRequest, request_parameters: str):

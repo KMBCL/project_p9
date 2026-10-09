@@ -29,11 +29,6 @@ ticket_urlpatterns: list[URLPattern | URLResolver] = [
         name=URLShortcutCreator.create("ticket"),
     ),
     path(
-        URLCreator.collection("ticket"),
-        login_required(TicketViews.TicketCollectionView.as_view()),
-        name=URLShortcutCreator.collection("ticket"),
-    ),
-    path(
         URLCreator.update("ticket"),
         login_required(TicketViews.TicketUpdateView.as_view()),
         name=URLShortcutCreator.update("ticket"),
@@ -55,16 +50,6 @@ review_urlpatterns: list[URLPattern | URLResolver] = [
         URLCreator.create_from("review"),
         login_required(ReviewViews.ReviewCreateFromView.as_view()),
         name=URLShortcutCreator.create_from("review"),
-    ),
-    path(
-        URLCreator.collection("review"),
-        login_required(ReviewViews.ReviewCollectionView.as_view()),
-        name=URLShortcutCreator.collection("review"),
-    ),
-    path(
-        URLCreator.detail("review"),
-        login_required(ReviewViews.ReviewDetailView.as_view()),
-        name=URLShortcutCreator.detail("review"),
     ),
     path(
         URLCreator.update("review"),
