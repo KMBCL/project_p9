@@ -82,7 +82,10 @@ class ReviewCreateFromView(View):
         return render(
             request=request,
             template_name=TemplatePathCreator.create_from("review"),
-            context={"form": form, "ticket": ticket},
+            context={
+                "form": form,
+                "ticket": ticket,
+            },
         )
 
     def post(self, request: HttpRequest, request_parameters: str):
@@ -99,10 +102,14 @@ class ReviewCreateFromView(View):
             review_service.create_from_review(config)
             return redirect("feed")
 
+        ticket = self.get_ticket(request, request_parameters)
         return render(
             request=request,
             template_name=TemplatePathCreator.create_from("review"),
-            context={"form": form},
+            context={
+                "form": form,
+                "ticket": ticket,
+            },
         )
 
 

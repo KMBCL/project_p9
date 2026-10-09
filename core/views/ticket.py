@@ -70,18 +70,18 @@ class TicketCollectionView(View):
 
 class TicketUpdateView(View):
 
-    def get_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
+    def get_user_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
         config = TicketDetailConfig(
             request_user=request.user,
             request_parameter=request_parameters,
         )
         ticket_service = TickeService()
-        ticket = ticket_service.get_ticket(config)
+        ticket = ticket_service.get_user_ticket(config)
 
         return ticket
 
     def get(self, request: HttpRequest, request_parameters: str):
-        ticket = self.get_ticket(request, request_parameters)
+        ticket = self.get_user_ticket(request, request_parameters)
         form = TicketForm(instance=ticket)
 
         return render(
@@ -109,19 +109,19 @@ class TicketUpdateView(View):
 
 class TicketDeleteView(View):
 
-    def get_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
+    def get_user_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
         config = TicketDetailConfig(
             request_user=request.user,
             request_parameter=request_parameters,
         )
         ticket_service = TickeService()
-        ticket = ticket_service.get_ticket(config)
+        ticket = ticket_service.get_user_ticket(config)
 
         return ticket
 
     def get(self, request: HttpRequest, request_parameters: str):
         form = DeleteForm()
-        ticket = self.get_ticket(request, request_parameters)
+        ticket = self.get_user_ticket(request, request_parameters)
 
         return render(
             request=request,
@@ -144,7 +144,7 @@ class TicketDeleteView(View):
 
             return redirect("ticket_collection")
 
-        ticket = self.get_ticket(request, request_parameters)
+        ticket = self.get_user_ticket(request, request_parameters)
 
         return render(
             request=request,

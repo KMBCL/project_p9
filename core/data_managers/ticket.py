@@ -57,8 +57,12 @@ class TickeService:
         tickets = Ticket.objects.filter(user=config.request_user)
         return tickets
 
-    def get_ticket(self, config: TicketDetailConfig) -> Ticket | None:
+    def get_user_ticket(self, config: TicketDetailConfig) -> Ticket | None:
         ticket = Ticket.objects.filter(user=config.request_user, pk=int(config.request_parameter)).first()
+        return ticket
+
+    def get_ticket(self, config: TicketDetailConfig) -> Ticket | None:
+        ticket = Ticket.objects.filter(pk=int(config.request_parameter)).first()
         return ticket
 
     def update_ticket(self, config: TicketUpdateConfig) -> Ticket | None:
