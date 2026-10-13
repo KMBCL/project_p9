@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 
@@ -32,8 +32,6 @@ def home_view(request: Any) -> HttpResponse:
 
 
 def logout_view(request: Any) -> HttpResponse:
-    return render(
-        request=request,
-        template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
-        context={},
-    )
+    request.session.delete()
+    logout(request)
+    return redirect("home")
