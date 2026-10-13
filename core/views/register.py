@@ -35,8 +35,15 @@ class RegisterView(View):
                 form.cleaned_data["password"],
             )
             user_service = UserService()
-            user_service.register_user(registring_user)
-            return redirect("login")
+
+            try:
+                user_service.register_user(registring_user)
+
+            except ValueError as error:
+                form.add_error(None, str(error))
+
+            else:
+                return redirect("login")
 
         return render(
             request=request,

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 from core.forms.authentication import AuthenticationForm
@@ -21,14 +22,24 @@ def home_view(request: Any) -> HttpResponse:
             template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
             context={"form": form},
         )
-    else:
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("feed")
-        return redirect("home")
+    if request.method == "POST":
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("feed")
+            form.add_error(None, "Identifiants incorrects.")
+
+        return render(
+            request=request,
+            template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
+            context={"form": form},
+        )
+
+    return redirect("home")
 
 
 def logout_view(request: Any) -> HttpResponse:

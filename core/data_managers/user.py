@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+
+from django.db import IntegrityError
+
 from core.models.user import User
 
 
@@ -23,7 +26,7 @@ class UserService:
                 username=registring_user.username,
                 password=registring_user.password,
             )
-        except:
-            raise ValueError("Echec création utilisateur!")
+        except IntegrityError as error:
+            raise ValueError("Echec création utilisateur!") from error
 
         return user
