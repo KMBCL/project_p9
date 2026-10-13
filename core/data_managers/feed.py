@@ -31,9 +31,13 @@ class FeedService:
             user=config.request_user,
             ticket=OuterRef("pk"),
         )
-        tickets = Ticket.objects.filter(
-            Q(user=config.request_user) | Q(user__followed_by__user=config.request_user),
-        ).select_related()
+        tickets = (
+            Ticket.objects.filter(
+                Q(user=config.request_user) | Q(user__followed_by__user=config.request_user),
+            )
+            .distinct()
+            .select_related()
+        )
         tickets = tickets.annotate(has_user_reviews=Exists(user_reviews))
         return tickets
 

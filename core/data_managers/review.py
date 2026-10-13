@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from typing import Any
 
-from django.db.models import QuerySet, Exists
+
 from core.models.review import Review
 from core.models.ticket import Ticket
 from core.models.user import User
@@ -54,8 +54,8 @@ class ReviewDeleteConfig:
 
 class ReviewValidator:
 
-    def has_user_reviews(self, request_user: User, ticket: Ticket) -> Exists:
-        user_review_exists = Exists(Review.objects.filter(user=request_user, ticket=ticket))
+    def has_user_reviews(self, request_user: User, ticket: Ticket) -> bool:
+        user_review_exists = Review.objects.filter(user=request_user, ticket=ticket).exists()
         return user_review_exists
 
 
@@ -85,11 +85,12 @@ class ReviewService:
         if ticket is None:
             return None
 
-        validator = ReviewValidator()
-        if validator.has_user_reviews(
+        has_user_reviews = ReviewValidator().has_user_reviews(
             request_user=config.request_user,
             ticket=ticket,
-        ):
+        )
+
+        if has_user_reviews:
             return None
 
         review = Review.objects.create(
