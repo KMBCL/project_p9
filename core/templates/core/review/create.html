@@ -6,11 +6,13 @@
     <section class="section">
         <form method="post" class="form">
             {% csrf_token %}
+            
 
             <div class="form__subform">
                 <div class="form__subtitle">
                     <h3>Livre / Article</h3>
                 </div>
+                {% include "core/components/form_errors.html" with form=ticket_form %}
             
                 {% include "core/components/form_content.html" with form=ticket_form %}
             </div>
@@ -19,6 +21,7 @@
                 <div class="form__subtitle">
                     <h3>Critique</h3>
                 </div>
+                {% include "core/components/form_errors.html" with form=review_form %}
             
                 {% include "core/components/form_content.html" with form=review_form %}
             </div>

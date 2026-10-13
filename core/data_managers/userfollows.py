@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
-from typing import Any
+from django.db import IntegrityError
 
-from django.db.models import QuerySet
 from core.models.user import User
 from core.models.userfollows import UserFollows
 
@@ -45,7 +44,7 @@ class UserFollowsService:
         followed_user = self.get_followed_user(config.followed_username)
 
         if followed_user is None:
-            return None
+            raise ValueError("Utilisateur inexistant!")
 
         user_follows = UserFollows.objects.create(
             user=config.request_user,

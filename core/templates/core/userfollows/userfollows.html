@@ -6,7 +6,7 @@
     <section id="to_follow_panel">
         <form method="post" class="login-panel">
             {% csrf_token %}
-            {{ form.errors }}
+            {% include "core/components/form_errors.html" %}
             <div class="login-panel__form">
                 {% include "core/components/form_content.html" %}
             </div>

@@ -72,8 +72,15 @@ class UserFollowsView(View):
                 followed_username=form.cleaned_data["username"],
             )
             user_follows_service = UserFollowsService()
-            user_follows_service.create_user_follows(config)
-            return redirect("userfollows")
+
+            try:
+                user_follows_service.create_user_follows(config)
+
+            except ValueError as error:
+                form.add_error(None, str(error))
+
+            else:
+                return redirect("userfollows")
 
         following_relations = self.get_following_relations(request)
         followed_by_relations = self.get_followed_by_relations(request)
