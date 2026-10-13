@@ -13,14 +13,6 @@ if TYPE_CHECKING:
     from django.http import HttpResponse
 
 
-# def home_view(request: Any) -> HttpResponse:
-#     return render(
-#         request=request,
-#         template_name=TEMPLATE_PATHS.HOME_TEMPLATE_PATH,
-#         context={},
-#     )
-
-
 def home_view(request: Any) -> HttpResponse:
     if request.method == "GET":
         form = AuthenticationForm()
@@ -36,7 +28,7 @@ def home_view(request: Any) -> HttpResponse:
         if user is not None:
             login(request, user)
             return redirect("feed")
-        return redirect("login")
+        return redirect("home")
 
 
 def logout_view(request: Any) -> HttpResponse:

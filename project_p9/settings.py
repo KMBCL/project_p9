@@ -133,7 +133,7 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "core.User"
-LOGIN_URL = "login/"
+LOGIN_URL = "home/"
 
 # Django Debug Toolbar (dev only)
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
