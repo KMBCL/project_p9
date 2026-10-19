@@ -8,7 +8,7 @@
             {% endif %}
         </div>
         <div class="snippet__created_at">
-            {{ review.time_created }}
+            {{ review.time_created | date:"j F Y à H:i" }}
         </div>
     </div>
 
