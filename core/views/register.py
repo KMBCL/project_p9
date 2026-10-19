@@ -43,7 +43,7 @@ class RegisterView(View):
                 form.add_error(None, str(error))
 
             else:
-                return redirect("login")
+                return redirect("home")
 
         return render(
             request=request,
