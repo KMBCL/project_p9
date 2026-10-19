@@ -222,6 +222,12 @@ header{
     justify-items: end;
 }
 
+div.form__radio {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .textinput{
     width: 100%;
 }

@@ -13,7 +13,14 @@
     </div>
 
     <div class="">
-        {{ review.headline }} - {{ review.rating }}
+        {{ review.headline }} - 
+        {% if review.rating is not None %}
+            <span class="rating" aria-label="Note : {{ review.rating }} sur 5">
+                {% for i in rating_range %}
+                    {% if i <= review.rating %}★{% else %}☆{% endif %}
+                {% endfor %}
+            </span>
+        {% endif %}
     </div>
 
     <p>

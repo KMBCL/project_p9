@@ -12,6 +12,8 @@ from core.data_managers.feed import FeedConfig, FeedService
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
 
+RATING_RANGE = range(1, 6)
+
 
 class FeedView(View):
 
@@ -23,5 +25,8 @@ class FeedView(View):
         return render(
             request=request,
             template_name=TEMPLATE_PATHS.FEED,
-            context={"feed": feed},
+            context={
+                "feed": feed,
+                "rating_range": RATING_RANGE,
+            },
         )
