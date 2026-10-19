@@ -65,6 +65,7 @@ class ReviewService:
         pass
 
     def create_review(self, config: ReviewCreateConfig):
+        print("image", config.ticket_image)
         ticket = Ticket.objects.create(
             title=config.ticket_title,
             description=config.ticket_description,

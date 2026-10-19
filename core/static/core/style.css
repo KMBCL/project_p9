@@ -167,6 +167,17 @@ header{
     justify-items: end;
 }
 
+.snippet__image{
+    display: grid;
+    grid-template-columns: 1fr;
+
+    
+}
+
+.snippet__img{
+    width: 10rem;
+}
+
 .form{
     display: grid;
     grid-template-columns: 1fr;

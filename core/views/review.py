@@ -51,8 +51,15 @@ class ReviewCreateView(View):
         )
 
     def post(self, request: HttpRequest):
-        ticket_form = TicketForm(request.POST or None, prefix="ticket")
-        review_form = ReviewForm(request.POST or None, prefix="review")
+        ticket_form = TicketForm(
+            request.POST or None,
+            request.FILES or None,
+            prefix="ticket",
+        )
+        review_form = ReviewForm(
+            request.POST or None,
+            prefix="review",
+        )
 
         if ticket_form.is_valid() and review_form.is_valid():
             config = ReviewCreateConfig(

@@ -47,7 +47,10 @@ class TicketCreateView(View):
         )
 
     def post(self, request: HttpRequest):
-        form = TicketForm(request.POST)
+        form = TicketForm(
+            request.POST,
+            request.FILES,
+        )
         if form.is_valid():
             config = TicketCreateConfig(
                 title=form.cleaned_data["title"],
@@ -75,11 +78,17 @@ class TicketUpdateView(View):
         return render(
             request=request,
             template_name=TemplatePathCreator.update("ticket"),
-            context={"form": form},
+            context={
+                "form": form,
+                "ticket": ticket,
+            },
         )
 
     def post(self, request: HttpRequest, request_parameters: str):
-        form = TicketForm(request.POST)
+        form = TicketForm(
+            request.POST,
+            request.FILES,
+        )
         if form.is_valid():
             config = TicketUpdateConfig(
                 request_user=request.user, request_parameter=request_parameters, cleaned_data=form.cleaned_data
@@ -88,10 +97,14 @@ class TicketUpdateView(View):
             ticket_service.update_ticket(config)
             return redirect("user_posts")
 
+        ticket = get_user_ticket(request, request_parameters)
         return render(
             request=request,
             template_name=TemplatePathCreator.update("ticket"),
-            context={"form": form},
+            context={
+                "form": form,
+                "ticket": ticket,
+            },
         )
 
 

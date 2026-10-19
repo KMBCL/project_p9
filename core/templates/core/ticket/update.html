@@ -7,4 +7,9 @@
     <section class="section">
         {% include "core/components/form.html"%}
     <section>
+    <div class="snippet__image">
+        {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" alt="Image du ticket" class="snippet__img">
+        {% endif %}
+    </div>
 {% endblock %}
