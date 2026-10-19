@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-from datetime import datetime
+from typing import TYPE_CHECKING
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
 from django.db import models
 
 
-from core.models.user import User
 from core.models.ticket import Ticket
+
+if TYPE_CHECKING:
+    from datetime import datetime
+    from core.models.user import User
 
 
 class Review(models.Model):

@@ -1,12 +1,19 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from dataclasses import dataclass
 
 from itertools import chain
 
-from django.db.models import CharField, Value, QuerySet
+from django.db.models import CharField, Value
 
 from core.constants import CONTENT_TYPE
-from core.models.ticket import Ticket
-from core.models.review import Review
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from core.models.ticket import Ticket
+    from core.models.review import Review
 
 
 @dataclass

@@ -1,4 +1,8 @@
-from django.urls import path, URLPattern, URLResolver
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 
 from core.urls.url_creator import URLCreator
@@ -13,6 +17,9 @@ from core.views.user_posts import UserPostsView
 import core.views.ticket as TicketViews
 import core.views.review as ReviewViews
 import core.views.userfollows as UserFollowsViews
+
+if TYPE_CHECKING:
+    from django.urls import URLPattern, URLResolver
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path("home/", home_view, name="home"),

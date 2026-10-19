@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from datetime import datetime
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db import models
 
-from core.models.user import User
+if TYPE_CHECKING:
+    from datetime import datetime
+    from core.models.user import User
 
 
 class Ticket(models.Model):

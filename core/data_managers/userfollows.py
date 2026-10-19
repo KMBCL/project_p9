@@ -1,9 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from dataclasses import dataclass
 
-from django.db.models import QuerySet
 
 from core.models.user import User
 from core.models.userfollows import UserFollows
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
 
 
 @dataclass

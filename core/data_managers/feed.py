@@ -1,11 +1,18 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from dataclasses import dataclass
 
-from django.db.models import Q, Exists, OuterRef, QuerySet
+from django.db.models import Q, Exists, OuterRef
 
-from core.models.user import User
 from core.models.ticket import Ticket
 from core.models.review import Review
 from core.data_managers.helper.merge_posts import MergePostsConfig, merge_posts
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from core.models.user import User
 
 
 @dataclass

@@ -1,10 +1,14 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from django.db.models import QuerySet
 from core.models.ticket import Ticket
-from core.models.user import User
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from core.models.user import User
 
 
 @dataclass
