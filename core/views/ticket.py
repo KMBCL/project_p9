@@ -15,7 +15,7 @@ from core.data_managers.ticket import (
     TicketDetailConfig,
     TicketUpdateConfig,
     TicketDeleteConfig,
-    TickeService,
+    TicketService,
 )
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ def get_user_ticket(request: HttpRequest, request_parameters: str) -> Ticket | N
         request_user=request.user,
         request_parameter=request_parameters,
     )
-    ticket_service = TickeService()
+    ticket_service = TicketService()
     ticket = ticket_service.get_user_ticket(config)
 
     return ticket
@@ -57,7 +57,7 @@ class TicketCreateView(View):
                 image=form.cleaned_data["image"],
                 request_user=request.user,
             )
-            ticket_service = TickeService()
+            ticket_service = TicketService()
             ticket_service.create_ticket(config)
             return redirect("feed")
 
@@ -92,7 +92,7 @@ class TicketUpdateView(View):
             config = TicketUpdateConfig(
                 request_user=request.user, request_parameter=request_parameters, cleaned_data=form.cleaned_data
             )
-            ticket_service = TickeService()
+            ticket_service = TicketService()
             ticket_service.update_ticket(config)
             return redirect("user_posts")
 
@@ -129,7 +129,7 @@ class TicketDeleteView(View):
                 request_user=request.user,
                 request_parameter=request_parameters,
             )
-            ticket_service = TickeService()
+            ticket_service = TicketService()
             ticket_service.delete_ticket(config)
 
             return redirect("user_posts")

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from typing import TYPE_CHECKING, Any
 
+from django.db import transaction
 
 from core.models.review import Review
 from core.models.ticket import Ticket
@@ -60,6 +61,7 @@ class ReviewDeleteConfig:
 class ReviewValidator:
 
     def has_user_reviews(self, request_user: User, ticket: Ticket) -> bool:
+        """Gets all user reviews."""
         user_review_exists = Review.objects.filter(user=request_user, ticket=ticket).exists()
         return user_review_exists
 
@@ -69,7 +71,9 @@ class ReviewService:
     def __init__(self) -> None:
         pass
 
+    @transaction.atomic
     def create_review(self, config: ReviewCreateConfig) -> Review:
+        """Creates both ticket and review. Both must succeed, or both fails, and DB is reverted."""
         ticket = Ticket.objects.create(
             title=config.ticket_title,
             description=config.ticket_description,
@@ -86,6 +90,7 @@ class ReviewService:
         return review
 
     def create_from_review(self, config: ReviewCreateFromConfig) -> Review | None:
+        """Creates a review from existing ticket."""
         ticket = Ticket.objects.filter(pk=config.ticket_pk).first()
         if ticket is None:
             return None

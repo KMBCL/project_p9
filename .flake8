@@ -4,8 +4,10 @@ exclude =
     .git,
     __pycache__,
     */migrations/*,
-    flake8-report
-# Docstring checks (flake8-docstrings) disabled
-extend-ignore = D
+    flake8-report,
+    project_p9,
+    manage.py
+# D106: nested public classes (Django `class Meta`)
+extend-ignore = D106
 format = html
 htmldir = flake8-report

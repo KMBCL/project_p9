@@ -43,7 +43,7 @@ class TicketDeleteConfig:
     request_parameter: str
 
 
-class TickeService:
+class TicketService:
 
     def __init__(self) -> None:
         pass

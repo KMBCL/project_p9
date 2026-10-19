@@ -18,7 +18,7 @@ from core.data_managers.review import (
     ReviewDeleteConfig,
     ReviewService,
 )
-from core.data_managers.ticket import TicketDetailConfig, TickeService
+from core.data_managers.ticket import TicketDetailConfig, TicketService
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
@@ -93,7 +93,7 @@ class ReviewCreateFromView(View):
             request_user=request.user,
             request_parameter=request_parameters,
         )
-        ticket_service = TickeService()
+        ticket_service = TicketService()
         return ticket_service.get_ticket(ticket_config)
 
     def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
