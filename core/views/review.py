@@ -13,7 +13,6 @@ from core.forms.delete import DeleteForm
 from core.data_managers.review import (
     ReviewCreateConfig,
     ReviewCreateFromConfig,
-    ReviewCollectionConfig,
     ReviewDetailConfig,
     ReviewUpdateConfig,
     ReviewDeleteConfig,
@@ -24,9 +23,10 @@ from core.data_managers.ticket import TicketDetailConfig, TickeService
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
     from core.models.review import Review
+    from core.models.ticket import Ticket
 
 
-def get_user_review(request: HttpRequest, request_parameters: str):
+def get_user_review(request: HttpRequest, request_parameters: str) -> Review | None:
     config = ReviewDetailConfig(
         request_user=request.user,
         request_parameter=request_parameters,
@@ -37,7 +37,7 @@ def get_user_review(request: HttpRequest, request_parameters: str):
 
 
 class ReviewCreateView(View):
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         ticket_form = TicketForm(prefix="ticket")
         review_form = ReviewForm(prefix="review")
 
@@ -50,7 +50,7 @@ class ReviewCreateView(View):
             },
         )
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         ticket_form = TicketForm(
             request.POST or None,
             request.FILES or None,
@@ -88,7 +88,7 @@ class ReviewCreateView(View):
 
 class ReviewCreateFromView(View):
 
-    def get_ticket(self, request: HttpRequest, request_parameters: str):
+    def get_ticket(self, request: HttpRequest, request_parameters: str) -> Ticket | None:
         ticket_config = TicketDetailConfig(
             request_user=request.user,
             request_parameter=request_parameters,
@@ -96,7 +96,7 @@ class ReviewCreateFromView(View):
         ticket_service = TickeService()
         return ticket_service.get_ticket(ticket_config)
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = ReviewForm()
         ticket = self.get_ticket(request, request_parameters)
         return render(
@@ -108,7 +108,7 @@ class ReviewCreateFromView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = ReviewForm(request.POST)
         if form.is_valid():
             config = ReviewCreateFromConfig(
@@ -135,7 +135,7 @@ class ReviewCreateFromView(View):
 
 class ReviewUpdateView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         review = get_user_review(request, request_parameters)
         form = ReviewForm(instance=review)
         ticket = review.ticket if review is not None else None
@@ -148,7 +148,7 @@ class ReviewUpdateView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = ReviewForm(request.POST)
         if form.is_valid():
             config = ReviewUpdateConfig(
@@ -172,7 +172,7 @@ class ReviewUpdateView(View):
 
 class ReviewDeleteView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm()
         review = get_user_review(request, request_parameters)
 
@@ -185,7 +185,7 @@ class ReviewDeleteView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = ReviewDeleteConfig(

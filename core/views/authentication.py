@@ -4,8 +4,6 @@ from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.contrib import messages
-
 
 from core.forms.authentication import AuthenticationForm
 from core.constants import TEMPLATE_PATHS

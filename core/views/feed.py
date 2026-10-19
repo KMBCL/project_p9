@@ -10,12 +10,12 @@ from core.constants import TEMPLATE_PATHS
 from core.data_managers.feed import FeedConfig, FeedService
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.http import HttpRequest, HttpResponse
 
 
 class FeedView(View):
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         config = FeedConfig(request_user=request.user)
         service = FeedService()
         feed = service.get_feed(config)

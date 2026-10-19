@@ -10,12 +10,12 @@ from core.constants import TEMPLATE_PATHS
 from core.data_managers.user_posts import UserPostsConfig, UserPostsService
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.http import HttpRequest, HttpResponse
 
 
 class UserPostsView(View):
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         config = UserPostsConfig(request_user=request.user)
         service = UserPostsService()
         user_posts = service.get_posts(config)

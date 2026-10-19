@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-from django.db.models import Q, Exists, OuterRef, Value, BooleanField
+from django.db.models import Q, Exists, OuterRef, Value, BooleanField, QuerySet
 
 from core.models.user import User
 from core.models.ticket import Ticket
@@ -16,7 +16,7 @@ class UserPostsConfig:
 
 class UserPostsService:
 
-    def get_user_tickets(self, config: UserPostsConfig):
+    def get_user_tickets(self, config: UserPostsConfig) -> QuerySet[Ticket, Ticket]:
         user_reviews = Review.objects.filter(
             user=config.request_user,
             ticket=OuterRef("pk"),
@@ -26,7 +26,7 @@ class UserPostsService:
         tickets = tickets.annotate(editable=Value(True, output_field=BooleanField()))
         return tickets
 
-    def get_user_reviews(self, config: UserPostsConfig):
+    def get_user_reviews(self, config: UserPostsConfig) -> QuerySet[Review, Review]:
         reviews = (
             Review.objects.filter(
                 Q(user=config.request_user),

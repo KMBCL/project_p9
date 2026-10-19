@@ -2,11 +2,9 @@ from dataclasses import dataclass
 
 from itertools import chain
 
-from django.db.models import Q, CharField, Value, Prefetch, Exists, OuterRef, QuerySet
+from django.db.models import CharField, Value, QuerySet
 
 from core.constants import CONTENT_TYPE
-from core.models.user import User
-from core.models.userfollows import UserFollows
 from core.models.ticket import Ticket
 from core.models.review import Review
 

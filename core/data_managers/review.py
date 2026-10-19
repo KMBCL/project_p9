@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 from typing import Any
 
+from django.db.models import QuerySet
+
 
 from core.models.review import Review
 from core.models.ticket import Ticket
@@ -61,11 +63,10 @@ class ReviewValidator:
 
 class ReviewService:
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def create_review(self, config: ReviewCreateConfig):
-        print("image", config.ticket_image)
+    def create_review(self, config: ReviewCreateConfig) -> Review:
         ticket = Ticket.objects.create(
             title=config.ticket_title,
             description=config.ticket_description,
@@ -81,7 +82,7 @@ class ReviewService:
         )
         return review
 
-    def create_from_review(self, config: ReviewCreateFromConfig):
+    def create_from_review(self, config: ReviewCreateFromConfig) -> Review | None:
         ticket = Ticket.objects.filter(pk=config.ticket_pk).first()
         if ticket is None:
             return None
@@ -103,11 +104,11 @@ class ReviewService:
         )
         return review
 
-    def get_reviews(self, config: ReviewCollectionConfig):
+    def get_reviews(self, config: ReviewCollectionConfig) -> QuerySet[Review, Review]:
         reviews = Review.objects.filter(user=config.request_user)
         return reviews
 
-    def get_user_review(self, config: ReviewDetailConfig):
+    def get_user_review(self, config: ReviewDetailConfig) -> Review | None:
         review = (
             Review.objects.filter(
                 user=config.request_user,

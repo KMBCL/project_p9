@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from django.db import IntegrityError
+from django.db.models import QuerySet
 
 from core.models.user import User
 from core.models.userfollows import UserFollows
@@ -40,7 +40,7 @@ class UserFollowsService:
         ).first()
         return followed_user
 
-    def create_user_follows(self, config: UserFollowsCreateConfig):
+    def create_user_follows(self, config: UserFollowsCreateConfig) -> UserFollows:
         followed_user = self.get_followed_user(config.followed_username)
 
         if followed_user is None:
@@ -53,15 +53,15 @@ class UserFollowsService:
 
         return user_follows
 
-    def get_following_relations(self, config: UserFollowsCollectionConfig):
+    def get_following_relations(self, config: UserFollowsCollectionConfig) -> QuerySet[UserFollows, UserFollows]:
         following_users = UserFollows.objects.filter(user=config.request_user).select_related()
         return following_users
 
-    def get_followed_by_relations(self, config: UserFollowsCollectionConfig):
+    def get_followed_by_relations(self, config: UserFollowsCollectionConfig) -> QuerySet[UserFollows, UserFollows]:
         followed_by_users = UserFollows.objects.filter(followed_user=config.request_user).select_related()
         return followed_by_users
 
-    def get_user_follows(self, config: UserFollowsDetailConfig):
+    def get_user_follows(self, config: UserFollowsDetailConfig) -> UserFollows | None:
         user_follows = (
             UserFollows.objects.filter(
                 user=config.request_user,

@@ -12,7 +12,6 @@ from core.forms.ticket import TicketForm
 from core.forms.delete import DeleteForm
 from core.data_managers.ticket import (
     TicketCreateConfig,
-    TicketCollectionConfig,
     TicketDetailConfig,
     TicketUpdateConfig,
     TicketDeleteConfig,
@@ -20,7 +19,7 @@ from core.data_managers.ticket import (
 )
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.http import HttpRequest, HttpResponse
 
     from core.models.ticket import Ticket
 
@@ -37,7 +36,7 @@ def get_user_ticket(request: HttpRequest, request_parameters: str) -> Ticket | N
 
 
 class TicketCreateView(View):
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         form = TicketForm()
 
         return render(
@@ -46,7 +45,7 @@ class TicketCreateView(View):
             context={"form": form},
         )
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         form = TicketForm(
             request.POST,
             request.FILES,
@@ -71,7 +70,7 @@ class TicketCreateView(View):
 
 class TicketUpdateView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         ticket = get_user_ticket(request, request_parameters)
         form = TicketForm(instance=ticket)
 
@@ -84,7 +83,7 @@ class TicketUpdateView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = TicketForm(
             request.POST,
             request.FILES,
@@ -110,7 +109,7 @@ class TicketUpdateView(View):
 
 class TicketDeleteView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm()
         ticket = get_user_ticket(request, request_parameters)
 
@@ -123,7 +122,7 @@ class TicketDeleteView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = TicketDeleteConfig(

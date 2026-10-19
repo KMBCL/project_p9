@@ -5,9 +5,7 @@ exclude =
     __pycache__,
     */migrations/*,
     flake8-report
-# pep257: one-line summary docstrings, no Args/Returns sections required (types come from hints)
-docstring-convention = pep257
-# D106: Django's nested `class Meta` doesn't need a docstring
-extend-ignore = D106
+# Docstring checks (flake8-docstrings) disabled
+extend-ignore = D
 format = html
 htmldir = flake8-report

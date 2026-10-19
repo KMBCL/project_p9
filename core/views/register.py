@@ -13,12 +13,12 @@ from core.constants import TEMPLATE_PATHS
 from core.data_managers.user import RegistringUser, UserService
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.http import HttpRequest, HttpResponse
 
 
 class RegisterView(View):
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         form = RegisterForm()
 
         return render(
@@ -27,7 +27,7 @@ class RegisterView(View):
             context={"form": form},
         )
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         form = RegisterForm(request.POST)
         if form.is_valid():
             registring_user = RegistringUser(

@@ -16,7 +16,7 @@ class UserService:
     def __init__(self) -> None:
         pass
 
-    def register_user(self, registring_user: RegistringUser):
+    def register_user(self, registring_user: RegistringUser) -> User:
         existing_user = User.objects.filter(username__iexact=registring_user.username).exists()
         if existing_user:
             raise ValueError("Nom d'utilisateur déjà existant!")

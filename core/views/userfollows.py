@@ -97,7 +97,7 @@ class UserFollowsView(View):
 
 class UserFollowsDeleteView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str):
+    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm()
         user_follows = get_user_follows(request, request_parameters)
 
@@ -110,7 +110,7 @@ class UserFollowsDeleteView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str):
+    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = UserFollowsDeleteConfig(
