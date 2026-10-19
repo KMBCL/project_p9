@@ -23,6 +23,7 @@ class Ticket(models.Model):
     image: models.ImageField = models.ImageField(
         null=True,
         blank=True,
+        upload_to="media/",
     )
     time_created: models.DateTimeField[datetime, datetime] = models.DateTimeField(
         auto_now_add=True,

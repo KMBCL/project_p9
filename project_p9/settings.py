@@ -122,6 +122,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -134,6 +136,7 @@ MAILERS = {
 
 AUTH_USER_MODEL = "core.User"
 LOGIN_URL = "home/"
+
 
 # Django Debug Toolbar (dev only)
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
