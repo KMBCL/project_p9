@@ -22,31 +22,39 @@ class FeedConfig:
 
 class FeedService:
 
-    def get_viewable_tickets(self, config: FeedConfig) -> QuerySet[Ticket, Ticket]:
-        """
-        user__followed_by__user traverses:
-        Ticket.user
-        -> UserFollows where Ticket.user is followed_user
-        -> UserFollows.user, the follower
-
-        Q() allows boolean combinations such as OR with |
-
-        Visible tickets:
-        - tickets created by request_user
-        - tickets created by users followed by request_user
-        """
-
-        user_reviews = Review.objects.filter(
+    def _get_user_reviews(self, config: FeedConfig) -> QuerySet[Review, Review]:
+        """Gets user reviews related to loaded tickets."""
+        return Review.objects.filter(
             user=config.request_user,
             ticket=OuterRef("pk"),
         )
-        tickets = (
+
+    def _get_tickets(self, config: FeedConfig) -> QuerySet[Ticket, Ticket]:
+        """Gets tickets :
+        user__followed_by__user traverses:
+            Ticket.user
+            -> UserFollows where Ticket.user is followed_user
+            -> UserFollows.user, the follower
+
+            Q() allows boolean combinations such as OR with |
+
+            Visible tickets:
+            - tickets created by request_user
+            - tickets created by users followed by request_user
+        """
+        return (
             Ticket.objects.filter(
                 Q(user=config.request_user) | Q(user__followed_by__user=config.request_user),
             )
             .distinct()
-            .select_related()
+            .select_related("user")  # préciser quoi remonter
         )
+
+    def get_viewable_tickets(self, config: FeedConfig) -> QuerySet[Ticket, Ticket]:
+        """Gets viewable annotated tickets."""
+
+        user_reviews = self._get_user_reviews(config)
+        tickets = self._get_tickets(config)
         tickets = tickets.annotate(has_user_reviews=Exists(user_reviews))
         return tickets
 

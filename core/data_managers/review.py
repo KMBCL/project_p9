@@ -140,12 +140,7 @@ class ReviewService:
         review.save()
 
     def delete_review(self, config: ReviewDeleteConfig) -> None:
-        review = Review.objects.filter(
+        Review.objects.filter(
             user=config.request_user,
             pk=int(config.request_parameter),
-        ).first()
-
-        if review is None:
-            return None
-
-        review.delete()
+        ).delete()
