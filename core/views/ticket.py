@@ -24,10 +24,10 @@ if TYPE_CHECKING:
     from core.models.ticket import Ticket
 
 
-def get_user_ticket(request: HttpRequest, request_parameters: str) -> Ticket | None:
+def get_user_ticket(request: HttpRequest, pk: int) -> Ticket | None:
     config = TicketDetailConfig(
         request_user=request.user,
-        request_parameter=request_parameters,
+        pk=pk,
     )
     ticket_service = TicketService()
     ticket = ticket_service.get_user_ticket(config)
@@ -70,8 +70,8 @@ class TicketCreateView(View):
 
 class TicketUpdateView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
-        ticket = get_user_ticket(request, request_parameters)
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        ticket = get_user_ticket(request, pk)
         form = TicketForm(instance=ticket)
 
         return render(
@@ -83,20 +83,20 @@ class TicketUpdateView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = TicketForm(
             request.POST,
             request.FILES,
         )
         if form.is_valid():
             config = TicketUpdateConfig(
-                request_user=request.user, request_parameter=request_parameters, cleaned_data=form.cleaned_data
+                request_user=request.user, pk=pk, cleaned_data=form.cleaned_data
             )
             ticket_service = TicketService()
             ticket_service.update_ticket(config)
             return redirect("user_posts")
 
-        ticket = get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, pk)
         return render(
             request=request,
             template_name=TemplatePathCreator.update("ticket"),
@@ -109,9 +109,9 @@ class TicketUpdateView(View):
 
 class TicketDeleteView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = DeleteForm()
-        ticket = get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, pk)
 
         return render(
             request=request,
@@ -122,19 +122,19 @@ class TicketDeleteView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = TicketDeleteConfig(
                 request_user=request.user,
-                request_parameter=request_parameters,
+                pk=pk,
             )
             ticket_service = TicketService()
             ticket_service.delete_ticket(config)
 
             return redirect("user_posts")
 
-        ticket = get_user_ticket(request, request_parameters)
+        ticket = get_user_ticket(request, pk)
 
         return render(
             request=request,

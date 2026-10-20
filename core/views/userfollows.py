@@ -27,10 +27,10 @@ if TYPE_CHECKING:
     from core.models.userfollows import UserFollows
 
 
-def get_user_follows(request: HttpRequest, request_parameters: str) -> UserFollows | None:
+def get_user_follows(request: HttpRequest, pk: int) -> UserFollows | None:
     config = UserFollowsDetailConfig(
         request_user=request.user,
-        request_parameters=request_parameters,
+        pk=pk,
     )
     user_follows_service = UserFollowsService()
     user_follows = user_follows_service.get_user_follows(config)
@@ -97,9 +97,9 @@ class UserFollowsView(View):
 
 class UserFollowsDeleteView(View):
 
-    def get(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = DeleteForm()
-        user_follows = get_user_follows(request, request_parameters)
+        user_follows = get_user_follows(request, pk)
 
         return render(
             request=request,
@@ -110,19 +110,19 @@ class UserFollowsDeleteView(View):
             },
         )
 
-    def post(self, request: HttpRequest, request_parameters: str) -> HttpResponse:
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = UserFollowsDeleteConfig(
                 request_user=request.user,
-                request_parameters=request_parameters,
+                pk=pk,
             )
             user_follows_service = UserFollowsService()
             user_follows_service.delete_user_follows(config)
 
             return redirect("userfollows")
 
-        user_follows = get_user_follows(request, request_parameters)
+        user_follows = get_user_follows(request, pk)
 
         return render(
             request=request,

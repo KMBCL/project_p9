@@ -26,13 +26,13 @@ class UserFollowsCollectionConfig:
 @dataclass
 class UserFollowsDetailConfig:
     request_user: User
-    request_parameters: str
+    pk: int
 
 
 @dataclass
 class UserFollowsDeleteConfig:
     request_user: User
-    request_parameters: str
+    pk: int
 
 
 class UserFollowsService:
@@ -71,7 +71,7 @@ class UserFollowsService:
         user_follows = (
             UserFollows.objects.filter(
                 user=config.request_user,
-                pk=int(config.request_parameters),
+                pk=config.pk,
             )
             .select_related()
             .first()
@@ -81,7 +81,7 @@ class UserFollowsService:
     def delete_user_follows(self, config: UserFollowsDeleteConfig) -> None:
         user_follows = UserFollows.objects.filter(
             user=config.request_user,
-            pk=config.request_parameters,
+            pk=config.pk,
         ).first()
 
         if user_follows is None:

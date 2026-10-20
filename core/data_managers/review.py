@@ -42,20 +42,20 @@ class ReviewCollectionConfig:
 @dataclass
 class ReviewDetailConfig:
     request_user: User
-    request_parameter: str
+    pk: int
 
 
 @dataclass
 class ReviewUpdateConfig:
     request_user: User
-    request_parameter: str
+    pk: int
     cleaned_data: dict[str, Any]
 
 
 @dataclass
 class ReviewDeleteConfig:
     request_user: User
-    request_parameter: str
+    pk: int
 
 
 class ReviewValidator:
@@ -120,7 +120,7 @@ class ReviewService:
         review = (
             Review.objects.filter(
                 user=config.request_user,
-                pk=int(config.request_parameter),
+                pk=config.pk,
             )
             .select_related()
             .first()
@@ -130,7 +130,7 @@ class ReviewService:
     def update_review(self, config: ReviewUpdateConfig) -> Review | None:
         review = Review.objects.filter(
             user=config.request_user,
-            pk=int(config.request_parameter),
+            pk=config.pk,
         ).first()
         if review is None:
             return None
@@ -142,5 +142,5 @@ class ReviewService:
     def delete_review(self, config: ReviewDeleteConfig) -> None:
         Review.objects.filter(
             user=config.request_user,
-            pk=int(config.request_parameter),
+            pk=config.pk,
         ).delete()

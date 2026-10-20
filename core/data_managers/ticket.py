@@ -27,20 +27,20 @@ class TicketCollectionConfig:
 @dataclass
 class TicketDetailConfig:
     request_user: User
-    request_parameter: str
+    pk: int
 
 
 @dataclass
 class TicketUpdateConfig:
     request_user: User
-    request_parameter: str
+    pk: int
     cleaned_data: dict[str, Any]
 
 
 @dataclass
 class TicketDeleteConfig:
     request_user: User
-    request_parameter: str
+    pk: int
 
 
 class TicketService:
@@ -64,18 +64,18 @@ class TicketService:
     def get_user_ticket(self, config: TicketDetailConfig) -> Ticket | None:
         ticket = Ticket.objects.filter(
             user=config.request_user,
-            pk=int(config.request_parameter),
+            pk=config.pk,
         ).first()
         return ticket
 
     def get_ticket(self, config: TicketDetailConfig) -> Ticket | None:
-        ticket = Ticket.objects.filter(pk=int(config.request_parameter)).first()
+        ticket = Ticket.objects.filter(pk=config.pk).first()
         return ticket
 
     def update_ticket(self, config: TicketUpdateConfig) -> Ticket | None:
         detail_config = TicketDetailConfig(
             request_user=config.request_user,
-            request_parameter=config.request_parameter,
+            pk=config.pk,
         )
         ticket = self.get_user_ticket(detail_config)
 
@@ -89,7 +89,7 @@ class TicketService:
     def delete_ticket(self, config: TicketDeleteConfig) -> None:
         detail_config = TicketDetailConfig(
             request_user=config.request_user,
-            request_parameter=config.request_parameter,
+            pk=config.pk,
         )
         ticket = self.get_user_ticket(detail_config)
 

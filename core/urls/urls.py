@@ -5,9 +5,6 @@ from typing import TYPE_CHECKING
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 
-from core.urls.url_creator import URLCreator
-from core.urls.url_shortcut_creator import URLShortcutCreator
-
 from core.views.authentication import home_view, logout_view
 from core.views.register import RegisterView
 from core.views.feed import FeedView
@@ -31,63 +28,63 @@ urlpatterns: list[URLPattern | URLResolver] = [
 
 ticket_urlpatterns: list[URLPattern | URLResolver] = [
     path(
-        URLCreator.create("ticket"),
+        "ticket/create/",
         login_required(
             TicketViews.TicketCreateView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.create("ticket"),
+        name="ticket_create",
     ),
     path(
-        URLCreator.update("ticket"),
+        "ticket/update/<int:pk>/",
         login_required(
             TicketViews.TicketUpdateView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.update("ticket"),
+        name="ticket_update",
     ),
     path(
-        URLCreator.delete("ticket"),
+        "ticket/delete/<int:pk>/",
         login_required(
             TicketViews.TicketDeleteView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.delete("ticket"),
+        name="ticket_delete",
     ),
 ]
 
 review_urlpatterns: list[URLPattern | URLResolver] = [
     path(
-        URLCreator.create("review"),
+        "review/create/",
         login_required(
             ReviewViews.ReviewCreateView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.create("review"),
+        name="review_create",
     ),
     path(
-        URLCreator.create_from("review"),
+        "review/create_from/<int:pk>/",
         login_required(
             ReviewViews.ReviewCreateFromView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.create_from("review"),
+        name="review_create_from",
     ),
     path(
-        URLCreator.update("review"),
+        "review/update/<int:pk>/",
         login_required(
             ReviewViews.ReviewUpdateView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.update("review"),
+        name="review_update",
     ),
     path(
-        URLCreator.delete("review"),
+        "review/delete/<int:pk>/",
         login_required(
             ReviewViews.ReviewDeleteView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.delete("review"),
+        name="review_delete",
     ),
 ]
 
@@ -101,12 +98,12 @@ user_follows_urlpattenrs: list[URLPattern | URLResolver] = [
         name="userfollows",
     ),
     path(
-        URLCreator.delete("userfollows"),
+        "userfollows/delete/<int:pk>/",
         login_required(
             UserFollowsViews.UserFollowsDeleteView.as_view(),
             login_url="home",
         ),
-        name=URLShortcutCreator.delete("userfollows"),
+        name="userfollows_delete",
     ),
 ]
 
