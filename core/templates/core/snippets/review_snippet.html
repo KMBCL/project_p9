@@ -12,10 +12,10 @@
         </div>
     </div>
 
-    <div class="">
+    <div>
         {{ review.headline }} - 
         {% if review.rating is not None %}
-            <span class="rating" aria-label="Note : {{ review.rating }} sur 5">
+            <span aria-label="Note : {{ review.rating }} sur 5">
                 {% for i in rating_range %}
                     {% if i <= review.rating %}★{% else %}☆{% endif %}
                 {% endfor %}
@@ -27,7 +27,7 @@
         {{ review.body }}
     </p>
 
-    <div class="snippet__body">
+    <div>
         {% include 'core/snippets/ticket_snippet.html' with ticket=review.ticket %}
     </div>
 

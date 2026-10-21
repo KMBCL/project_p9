@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="snippet__details">
+    <div>
         {{ ticket.title }} - {{ ticket.description }}
     </div>
 
@@ -23,7 +23,7 @@
     </div>
 
     {% if ticket.has_user_reviews == False %}
-        <div class="snippet__create_review">
+        <div>
             <button class="validate-button">
                 <a href="{% url 'review_create_from' ticket.pk %}">Créer une critique</a>
             </button>

@@ -1,9 +1,9 @@
 {% for field in form %}
-    <div class="form__label">
+    <div>
         {{ field.label_tag }}
     </div>
     
-    <div class="form__field">
+    <div>
         {{ field }}
         {{ field.errors }}
     </div>
