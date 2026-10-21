@@ -140,7 +140,7 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "core.User"
-LOGIN_URL = "home/"
+LOGIN_URL = "home"
 
 
 # Django Debug Toolbar (dev only)
