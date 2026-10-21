@@ -1,3 +1,5 @@
+"""Model form used to create and update reviews."""
+
 from typing import Any
 
 from django import forms
@@ -6,6 +8,8 @@ from core.models.review import Review
 
 
 class ReviewForm(forms.ModelForm[Review]):
+    """Edits a review's headline, rating and body."""
+
     field_order = [
         Review.headline.field.name,
         Review.rating.field.name,

@@ -1,3 +1,5 @@
+"""Model form used to create and update tickets."""
+
 from typing import Any
 
 from django import forms
@@ -6,6 +8,8 @@ from core.models.ticket import Ticket
 
 
 class TicketForm(forms.ModelForm[Ticket]):
+    """Edits a ticket's title, description and image."""
+
     field_order = [
         Ticket.title.field.name,
         Ticket.description.field.name,

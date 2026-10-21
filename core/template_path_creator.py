@@ -12,14 +12,6 @@ class TemplatePathCreator:
         return f"core/{model_name}/{VIEW_TYPES.CREATE_FROM}.html"
 
     @staticmethod
-    def collection(model_name: str) -> str:
-        return f"core/{model_name}/{VIEW_TYPES.COLLECTION}.html"
-
-    @staticmethod
-    def detail(model_name: str) -> str:
-        return f"core/{model_name}/{VIEW_TYPES.DETAIL}.html"
-
-    @staticmethod
     def update(model_name: str) -> str:
         return f"core/{model_name}/{VIEW_TYPES.UPDATE}.html"
 

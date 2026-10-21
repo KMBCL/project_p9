@@ -1,3 +1,5 @@
+"""Form used to register a new user."""
+
 from typing import Any
 
 from django import forms
@@ -5,6 +7,8 @@ from django.core.exceptions import ValidationError
 
 
 class RegisterForm(forms.Form):
+    """Collects a username and a password entered twice to create an account."""
+
     username = forms.CharField(
         label="Nom utilisateur",
         max_length=100,
@@ -28,6 +32,7 @@ class RegisterForm(forms.Form):
     )
 
     def clean(self) -> dict[str, Any] | None:
+        """Check that both passwords match."""
         cleaned_data = super().clean()
         if cleaned_data is None:
             raise ValidationError("Error to handle further")
