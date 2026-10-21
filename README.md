@@ -40,7 +40,25 @@ Une fois activé, le nom `(venv)` apparaît au début de l'invite de commande.
 pip install -r requirements.txt
 ```
 
-## 4. Lancer le serveur
+## 4. Fichier `.env`
+
+Les secrets du projet ne sont pas écrits dans le code : `project_p9/settings.py` les lit dans le fichier
+`.env` situé à la racine du dépôt (à côté de `manage.py`), via `python-dotenv`.
+
+```ini
+SECRET_KEY='...'   # clé secrète Django
+DEBUG=True         # mode débogage (False par défaut si absent)
+```
+
+Ce fichier est **nécessaire au fonctionnement du projet** : sans `SECRET_KEY`, Django refuse de démarrer.
+Il est volontairement inclus dans le dépôt afin que le projet fonctionne directement après un clone.
+Pour un déploiement réel, il faudrait le retirer du dépôt et générer une nouvelle clé :
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+## 5. Lancer le serveur
 
 ```bash
 python manage.py migrate
