@@ -1,3 +1,5 @@
+"""URL routes of the core app, grouped by feature and combined into core_urlpatterns."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
