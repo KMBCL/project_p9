@@ -58,12 +58,29 @@ class UserFollowsService:
         ).first()
         return followed_user
 
+    def check_not_self_following(self, user: User, followed_user: User) -> None:
+        """Raise ValueError if the user tries to follow themselves."""
+        if user.pk == followed_user.pk:
+            raise ValueError("Vous ne pouvez pas vous suivre vous-même!")
+
+    def check_not_already_following(self, user: User, followed_user: User) -> None:
+        """Raise ValueError if the user already follows the other user."""
+        if UserFollows.objects.filter(user=user, followed_user=followed_user).exists():
+            raise ValueError("Vous suivez déjà cet utilisateur!")
+
     def create_user_follows(self, config: UserFollowsCreateConfig) -> UserFollows:
-        """Make the user follow another user, raising ValueError if they do not exist."""
+        """Make the user follow another user.
+
+        Raise ValueError if the other user does not exist, is the user themselves
+        or is already followed.
+        """
         followed_user = self.get_followed_user(config.followed_username)
 
         if followed_user is None:
             raise ValueError("Utilisateur inexistant!")
+
+        self.check_not_self_following(config.request_user, followed_user)
+        self.check_not_already_following(config.request_user, followed_user)
 
         user_follows = UserFollows.objects.create(
             user=config.request_user,
