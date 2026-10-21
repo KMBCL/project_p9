@@ -72,7 +72,7 @@ class ReviewCreateView(View):
                 review_body=review_form.cleaned_data["body"],
             )
             service = ReviewService()
-            service.create_review(config)
+            service.create_review_and_ticket(config)
 
             return redirect("feed")
 
@@ -119,7 +119,7 @@ class ReviewCreateFromView(View):
                 request_user=request.user,
             )
             review_service = ReviewService()
-            review_service.create_from_review(config)
+            review_service.create_review_from_ticket(config)
             return redirect("feed")
 
         ticket = self.get_ticket(request, pk)
@@ -151,9 +151,7 @@ class ReviewUpdateView(View):
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         form = ReviewForm(request.POST)
         if form.is_valid():
-            config = ReviewUpdateConfig(
-                request_user=request.user, pk=pk, cleaned_data=form.cleaned_data
-            )
+            config = ReviewUpdateConfig(request_user=request.user, pk=pk, cleaned_data=form.cleaned_data)
             ticket_service = ReviewService()
             ticket_service.update_review(config)
             return redirect("user_posts")

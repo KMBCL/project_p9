@@ -8,6 +8,7 @@ exclude =
     project_p9,
     manage.py
 # D106: nested public classes (Django `class Meta`)
-extend-ignore = D106
+# D107: __init__ methods
+extend-ignore = D106, D107
 format = html
 htmldir = flake8-report

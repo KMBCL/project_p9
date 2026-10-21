@@ -1,3 +1,5 @@
+"""Services and configurations for creating, reading, updating and deleting reviews."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -16,6 +18,8 @@ if TYPE_CHECKING:
 
 @dataclass(kw_only=True)
 class ReviewCreateConfig:
+    """Input data for creating a ticket together with its review."""
+
     request_user: User
     ticket_title: str
     ticket_description: str
@@ -27,6 +31,8 @@ class ReviewCreateConfig:
 
 @dataclass
 class ReviewCreateFromConfig:
+    """Input data for creating a review in response to an existing ticket."""
+
     ticket_pk: int
     rating: int
     headline: str
@@ -36,17 +42,23 @@ class ReviewCreateFromConfig:
 
 @dataclass
 class ReviewCollectionConfig:
+    """Input data for listing a user's reviews."""
+
     request_user: User
 
 
 @dataclass
 class ReviewDetailConfig:
+    """Input data for retrieving a single review owned by a user."""
+
     request_user: User
     pk: int
 
 
 @dataclass
 class ReviewUpdateConfig:
+    """Input data for updating a review owned by a user."""
+
     request_user: User
     pk: int
     cleaned_data: dict[str, Any]
@@ -54,26 +66,30 @@ class ReviewUpdateConfig:
 
 @dataclass
 class ReviewDeleteConfig:
+    """Input data for deleting a review owned by a user."""
+
     request_user: User
     pk: int
 
 
 class ReviewValidator:
+    """Checks business rules applying to reviews."""
 
     def has_user_reviews(self, request_user: User, ticket: Ticket) -> bool:
-        """Gets all user reviews."""
+        """Return whether the user has already reviewed the ticket."""
         user_review_exists = Review.objects.filter(user=request_user, ticket=ticket).exists()
         return user_review_exists
 
 
 class ReviewService:
+    """Handles creation, retrieval, update and deletion of reviews."""
 
     def __init__(self) -> None:
         pass
 
     @transaction.atomic
-    def create_review(self, config: ReviewCreateConfig) -> Review:
-        """Creates both ticket and review. Both must succeed, or both fails, and DB is reverted."""
+    def create_review_and_ticket(self, config: ReviewCreateConfig) -> Review:
+        """Create a ticket and its review atomically."""
         ticket = Ticket.objects.create(
             title=config.ticket_title,
             description=config.ticket_description,
@@ -89,8 +105,8 @@ class ReviewService:
         )
         return review
 
-    def create_from_review(self, config: ReviewCreateFromConfig) -> Review | None:
-        """Creates a review from existing ticket."""
+    def create_review_from_ticket(self, config: ReviewCreateFromConfig) -> Review | None:
+        """Create a review for an existing ticket, unless the user already reviewed it."""
         ticket = Ticket.objects.filter(pk=config.ticket_pk).first()
         if ticket is None:
             return None
@@ -113,21 +129,24 @@ class ReviewService:
         return review
 
     def get_reviews(self, config: ReviewCollectionConfig) -> QuerySet[Review, Review]:
+        """Return the reviews written by the user."""
         reviews = Review.objects.filter(user=config.request_user)
         return reviews
 
     def get_user_review(self, config: ReviewDetailConfig) -> Review | None:
+        """Return a review owned by the user, or None."""
         review = (
             Review.objects.filter(
                 user=config.request_user,
                 pk=config.pk,
             )
-            .select_related()
+            .select_related("user")
             .first()
         )
         return review
 
     def update_review(self, config: ReviewUpdateConfig) -> Review | None:
+        """Update a review owned by the user with the given data."""
         review = Review.objects.filter(
             user=config.request_user,
             pk=config.pk,
@@ -140,6 +159,7 @@ class ReviewService:
         review.save()
 
     def delete_review(self, config: ReviewDeleteConfig) -> None:
+        """Delete a review owned by the user."""
         Review.objects.filter(
             user=config.request_user,
             pk=config.pk,

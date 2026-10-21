@@ -1,3 +1,5 @@
+"""Helper merging tickets and reviews into a single chronological list."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -18,11 +20,14 @@ if TYPE_CHECKING:
 
 @dataclass
 class MergePostsConfig:
+    """Input data for merging tickets and reviews into a feed."""
+
     tickets: QuerySet[Ticket, Ticket]
     reviews: QuerySet[Review, Review]
 
 
 def merge_posts(config: MergePostsConfig) -> list[Review | Ticket]:
+    """Tag tickets and reviews with their content type and sort them from newest to oldest."""
     tickets = config.tickets
     reviews = config.reviews
 
