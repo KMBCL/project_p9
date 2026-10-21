@@ -1,3 +1,5 @@
+"""Views for managing user follow relations."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -28,6 +30,7 @@ if TYPE_CHECKING:
 
 
 def get_user_follows(request: HttpRequest, pk: int) -> UserFollows | None:
+    """Return the follow relation owned by the requesting user, or None."""
     config = UserFollowsDetailConfig(
         request_user=request.user,
         pk=pk,
@@ -39,18 +42,22 @@ def get_user_follows(request: HttpRequest, pk: int) -> UserFollows | None:
 
 
 class UserFollowsView(View):
+    """Displays the user's follow relations and lets them follow other users."""
 
     def get_following_relations(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
+        """Return the relations of users followed by the user."""
         collection_config = UserFollowsCollectionConfig(request_user=request.user)
         user_follows_service = UserFollowsService()
         return user_follows_service.get_following_relations(collection_config)
 
     def get_followed_by_relations(self, request: HttpRequest) -> QuerySet[UserFollows, UserFollows]:
+        """Return the relations of users following the user."""
         collection_config = UserFollowsCollectionConfig(request_user=request.user)
         user_follows_service = UserFollowsService()
         return user_follows_service.get_followed_by_relations(collection_config)
 
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render the follow form with the user's follow relations."""
         form = FollowingForm()
         following_relations = self.get_following_relations(request)
         followed_by_relations = self.get_followed_by_relations(request)
@@ -65,6 +72,7 @@ class UserFollowsView(View):
         )
 
     def post(self, request: HttpRequest) -> HttpResponse:
+        """Follow the given user, or re-render the page with errors."""
         form = FollowingForm(request.POST)
         if form.is_valid():
             config = UserFollowsCreateConfig(
@@ -96,8 +104,10 @@ class UserFollowsView(View):
 
 
 class UserFollowsDeleteView(View):
+    """Removes a follow relation after confirmation."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render the unfollow confirmation page."""
         form = DeleteForm()
         user_follows = get_user_follows(request, pk)
 
@@ -111,6 +121,7 @@ class UserFollowsDeleteView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Delete the follow relation, or re-render the confirmation page with errors."""
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = UserFollowsDeleteConfig(

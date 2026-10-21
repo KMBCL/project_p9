@@ -1,3 +1,5 @@
+"""View displaying the feed of tickets and reviews visible to a user."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -16,8 +18,10 @@ RATING_RANGE = range(1, 6)
 
 
 class FeedView(View):
+    """Displays the user's feed of tickets and reviews."""
 
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render the feed sorted from newest to oldest."""
         config = FeedConfig(request_user=request.user)
         service = FeedService()
         feed = service.get_feed(config)

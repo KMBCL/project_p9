@@ -1,3 +1,5 @@
+"""Views for creating, updating and deleting reviews."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -27,6 +29,7 @@ if TYPE_CHECKING:
 
 
 def get_user_review(request: HttpRequest, pk: int) -> Review | None:
+    """Return the review owned by the requesting user, or None."""
     config = ReviewDetailConfig(
         request_user=request.user,
         pk=pk,
@@ -37,7 +40,10 @@ def get_user_review(request: HttpRequest, pk: int) -> Review | None:
 
 
 class ReviewCreateView(View):
+    """Creates a ticket together with its review."""
+
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render empty ticket and review forms."""
         ticket_form = TicketForm(prefix="ticket")
         review_form = ReviewForm(prefix="review")
 
@@ -51,6 +57,7 @@ class ReviewCreateView(View):
         )
 
     def post(self, request: HttpRequest) -> HttpResponse:
+        """Create the ticket and its review, or re-render the forms with errors."""
         ticket_form = TicketForm(
             request.POST or None,
             request.FILES or None,
@@ -87,8 +94,10 @@ class ReviewCreateView(View):
 
 
 class ReviewCreateFromView(View):
+    """Creates a review in response to an existing ticket."""
 
     def get_ticket(self, request: HttpRequest, pk: int) -> Ticket | None:
+        """Return the ticket being reviewed, or None."""
         ticket_config = TicketDetailConfig(
             request_user=request.user,
             pk=pk,
@@ -97,6 +106,7 @@ class ReviewCreateFromView(View):
         return ticket_service.get_ticket(ticket_config)
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render an empty review form alongside the ticket."""
         form = ReviewForm()
         ticket = self.get_ticket(request, pk)
         return render(
@@ -109,6 +119,7 @@ class ReviewCreateFromView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Create the review for the ticket, or re-render the form with errors."""
         form = ReviewForm(request.POST)
         if form.is_valid():
             config = ReviewCreateFromConfig(
@@ -134,8 +145,10 @@ class ReviewCreateFromView(View):
 
 
 class ReviewUpdateView(View):
+    """Updates a review owned by the user."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render the review form pre-filled with the existing review."""
         review = get_user_review(request, pk)
         form = ReviewForm(instance=review)
         ticket = review.ticket if review is not None else None
@@ -149,6 +162,7 @@ class ReviewUpdateView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Update the review, or re-render the form with errors."""
         form = ReviewForm(request.POST)
         if form.is_valid():
             config = ReviewUpdateConfig(request_user=request.user, pk=pk, cleaned_data=form.cleaned_data)
@@ -169,8 +183,10 @@ class ReviewUpdateView(View):
 
 
 class ReviewDeleteView(View):
+    """Deletes a review owned by the user after confirmation."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render the deletion confirmation page."""
         form = DeleteForm()
         review = get_user_review(request, pk)
 
@@ -184,6 +200,7 @@ class ReviewDeleteView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Delete the review, or re-render the confirmation page with errors."""
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = ReviewDeleteConfig(

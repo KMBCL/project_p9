@@ -1,3 +1,5 @@
+"""View handling user registration."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -17,8 +19,10 @@ if TYPE_CHECKING:
 
 
 class RegisterView(View):
+    """Displays the registration form and creates new user accounts."""
 
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render an empty registration form."""
         form = RegisterForm()
 
         return render(
@@ -28,6 +32,7 @@ class RegisterView(View):
         )
 
     def post(self, request: HttpRequest) -> HttpResponse:
+        """Register the user and redirect to the home page, or re-render the form with errors."""
         form = RegisterForm(request.POST)
         if form.is_valid():
             registring_user = RegistringUser(

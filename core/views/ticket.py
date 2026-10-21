@@ -1,3 +1,5 @@
+"""Views for creating, updating and deleting tickets."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -25,6 +27,7 @@ if TYPE_CHECKING:
 
 
 def get_user_ticket(request: HttpRequest, pk: int) -> Ticket | None:
+    """Return the ticket owned by the requesting user, or None."""
     config = TicketDetailConfig(
         request_user=request.user,
         pk=pk,
@@ -36,7 +39,10 @@ def get_user_ticket(request: HttpRequest, pk: int) -> Ticket | None:
 
 
 class TicketCreateView(View):
+    """Creates a ticket requesting a review."""
+
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render an empty ticket form."""
         form = TicketForm()
 
         return render(
@@ -46,6 +52,7 @@ class TicketCreateView(View):
         )
 
     def post(self, request: HttpRequest) -> HttpResponse:
+        """Create the ticket, or re-render the form with errors."""
         form = TicketForm(
             request.POST,
             request.FILES,
@@ -69,8 +76,10 @@ class TicketCreateView(View):
 
 
 class TicketUpdateView(View):
+    """Updates a ticket owned by the user."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render the ticket form pre-filled with the existing ticket."""
         ticket = get_user_ticket(request, pk)
         form = TicketForm(instance=ticket)
 
@@ -84,6 +93,7 @@ class TicketUpdateView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Update the ticket, or re-render the form with errors."""
         form = TicketForm(
             request.POST,
             request.FILES,
@@ -108,8 +118,10 @@ class TicketUpdateView(View):
 
 
 class TicketDeleteView(View):
+    """Deletes a ticket owned by the user after confirmation."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render the deletion confirmation page."""
         form = DeleteForm()
         ticket = get_user_ticket(request, pk)
 
@@ -123,6 +135,7 @@ class TicketDeleteView(View):
         )
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Delete the ticket, or re-render the confirmation page with errors."""
         form = DeleteForm(request.POST)
         if form.is_valid():
             config = TicketDeleteConfig(

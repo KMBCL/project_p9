@@ -1,3 +1,5 @@
+"""Function views handling user login and logout."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
@@ -13,6 +15,7 @@ if TYPE_CHECKING:
 
 
 def home_view(request: Any) -> HttpResponse:
+    """Display the login form and authenticate the user on submission."""
     if request.method == "GET":
         form = AuthenticationForm()
         return render(
@@ -41,6 +44,7 @@ def home_view(request: Any) -> HttpResponse:
 
 
 def logout_view(request: Any) -> HttpResponse:
+    """Log the user out, clear their session and redirect to the home page."""
     request.session.delete()
     logout(request)
     return redirect("home")

@@ -1,3 +1,5 @@
+"""View displaying the tickets and reviews posted by a user."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -14,8 +16,10 @@ if TYPE_CHECKING:
 
 
 class UserPostsView(View):
+    """Displays the user's own tickets and reviews."""
 
     def get(self, request: HttpRequest) -> HttpResponse:
+        """Render the user's posts sorted from newest to oldest."""
         config = UserPostsConfig(request_user=request.user)
         service = UserPostsService()
         user_posts = service.get_posts(config)
