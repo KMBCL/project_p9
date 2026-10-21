@@ -1,3 +1,5 @@
+"""Model representing a follow relation between two users."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -10,6 +12,8 @@ if TYPE_CHECKING:
 
 
 class UserFollows(models.Model):
+    """A relation in which a user follows another user."""
+
     user: models.ForeignKey[User, User] = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

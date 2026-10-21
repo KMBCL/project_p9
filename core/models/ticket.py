@@ -1,3 +1,5 @@
+"""Model representing a ticket requesting a review of a book or article."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -11,6 +13,8 @@ if TYPE_CHECKING:
 
 
 class Ticket(models.Model):
+    """A user's request for a review, with a title, an optional description and image."""
+
     title: models.CharField[str, str] = models.CharField(
         max_length=128,
     )

@@ -1,3 +1,5 @@
+"""Model representing a review written by a user about a ticket."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -15,6 +17,8 @@ if TYPE_CHECKING:
 
 
 class Review(models.Model):
+    """A user's rated review of a ticket, with a headline and an optional body."""
+
     ticket: models.ForeignKey[Ticket, Ticket] = models.ForeignKey(
         to=Ticket,
         on_delete=models.CASCADE,
