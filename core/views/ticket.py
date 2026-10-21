@@ -94,19 +94,18 @@ class TicketUpdateView(View):
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         """Update the ticket, or re-render the form with errors."""
+        ticket = get_user_ticket(request, pk)
         form = TicketForm(
             request.POST,
             request.FILES,
+            instance=ticket,
         )
         if form.is_valid():
-            config = TicketUpdateConfig(
-                request_user=request.user, pk=pk, cleaned_data=form.cleaned_data
-            )
+            config = TicketUpdateConfig(request_user=request.user, pk=pk, cleaned_data=form.cleaned_data)
             ticket_service = TicketService()
             ticket_service.update_ticket(config)
             return redirect("user_posts")
 
-        ticket = get_user_ticket(request, pk)
         return render(
             request=request,
             template_name=TemplatePathCreator.update("ticket"),
