@@ -8,13 +8,11 @@ from typing import TYPE_CHECKING
 from django.views import View
 from django.shortcuts import render
 
-from core.constants import TEMPLATE_PATHS
+from core.constants import RATING_RANGE, TEMPLATE_PATHS
 from core.data_managers.feed import FeedConfig, FeedService
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
-
-RATING_RANGE = range(1, 6)
 
 
 class FeedView(View):

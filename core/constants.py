@@ -2,6 +2,8 @@
 
 from enum import StrEnum
 
+RATING_RANGE = range(1, 6)
+
 
 class TEMPLATE_PATHS(StrEnum):
     """Paths of the templates rendered by non-CRUD views."""

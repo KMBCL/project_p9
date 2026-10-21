@@ -157,7 +157,7 @@ class ReviewUpdateView(View):
             template_name=TemplatePathCreator.update("review"),
             context={
                 "form": form,
-                "reviewed_ticket": ticket,
+                "ticket": ticket,
             },
         )
 
@@ -177,7 +177,7 @@ class ReviewUpdateView(View):
             template_name=TemplatePathCreator.update("review"),
             context={
                 "form": form,
-                "reviewed_ticket": ticket,
+                "ticket": ticket,
             },
         )
 

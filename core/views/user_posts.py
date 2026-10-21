@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from django.views import View
 from django.shortcuts import render
 
-from core.constants import TEMPLATE_PATHS
+from core.constants import RATING_RANGE, TEMPLATE_PATHS
 from core.data_managers.user_posts import UserPostsConfig, UserPostsService
 
 if TYPE_CHECKING:
@@ -27,5 +27,8 @@ class UserPostsView(View):
         return render(
             request=request,
             template_name=TEMPLATE_PATHS.USER_POSTS,
-            context={"user_posts": user_posts},
+            context={
+                "user_posts": user_posts,
+                "rating_range": RATING_RANGE,
+            },
         )
