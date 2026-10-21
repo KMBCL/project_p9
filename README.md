@@ -49,6 +49,16 @@ python manage.py runserver
 
 L'application est accessible à l'adresse <http://127.0.0.1:8000/home>.
 
+## Données de démonstration
+
+La base `db.sqlite3` fournie dans le dépôt contient déjà des données de démonstration
+(images des tickets dans `media/ticket/`) :
+
+- `UserA`, `UserB` suivent `RSI` ; `RSI` suit `UserC` et `UserD` ; `UserE` ne suit personne ;
+- des tickets avec et sans image, des critiques, dont des réponses à ses propres tickets.
+
+Mot de passe des comptes `UserA` à `UserE` : `litreview123`.
+
 ## Rapport flake8
 
 ```bash
