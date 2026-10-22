@@ -76,6 +76,7 @@ La base `db.sqlite3` fournie dans le dépôt contient déjà des données de dé
 - des tickets avec et sans image, des critiques, dont des réponses à ses propres tickets.
 
 Mot de passe des comptes `UserA` à `UserE` : `litreview123`.
+Mot de passe superutilisateur pour la démonstration `RSI` : `1234`
 
 ## Rapport flake8
 
@@ -84,3 +85,4 @@ flake8
 ```
 
 Le rapport HTML est généré dans le dossier `flake8-report/` (configuration dans `.flake8`).
+Flake vérifie uniquement le sous dossier core. Le sous dossier project_p9 est généré par django.
