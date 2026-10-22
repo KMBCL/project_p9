@@ -1,10 +1,18 @@
 {% for field in form %}
-    <div>
-        {{ field.label_tag }}
-    </div>
-    
-    <div>
-        {{ field }}
-        {{ field.errors }}
-    </div>
+    {% if field.use_fieldset %}
+        <fieldset class="form__fieldset">            
+            {{ field.legend_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </fieldset>
+    {% else %}
+        <div>
+            {{ field.label_tag }}
+        </div>
+
+        <div>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endif %}
 {% endfor %}
