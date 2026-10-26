@@ -22,7 +22,7 @@ class ReviewForm(forms.ModelForm[Review]):
             Review.ticket.field.name,
             Review.user.field.name,
             Review.time_created.field.name,
-            Review.rating.field.name,
+            # Review.rating.field.name,
         ]
 
         widgets: dict[str, Any] = {
